@@ -1,0 +1,22 @@
+body { font-family: 굴림체; }
+
+#out {s
+ width: 100%;
+ text-align: center;
+ }
+#in {
+ display: inline-block;
+ }
+.dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+    background-color:black;
+    color:white;
+}
+.dropdown .dropdown-menu a {
+	background-color:black;
+	color:silver;
+}
+body {
+	background-color:silver;
+}
