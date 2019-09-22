@@ -24,25 +24,6 @@
 <script src="<c:url value='/js/common.js'/>" charset="utf-8"></script>
 
 <body>
-	<br>
-	<div class="container-fluid">
-		<br> <br>
-		<div class="row">
-			<div class="col-md-1"></div>
-			<h2 class="col-md-3" style="float: center; text-align: center">인기곡
-				리스트</h2>
-		</div>
-		<!-- <h1 style="float: center; text-align: left">인기곡 리스트</h1>-->
-		<div class="container">
-			<table class="table table-condensed">
-				<tr>
-					<td>순위</td>
-					<td>회사</td>
-					<td>번호</td>
-					<td>제목</td>
-					<td>가수</td>
-				</tr>
-			</table>
-		</div>
-	</div>
+		<div class="image-container-main" style="position: absolute; top: 0; background: black;"><img src="${pageContext.request.contextPath}/res/images/main1.png"></div>
+
 </body>

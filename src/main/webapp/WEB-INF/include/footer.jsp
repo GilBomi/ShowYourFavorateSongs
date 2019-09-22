@@ -24,25 +24,12 @@
 <script src="<c:url value='/js/common.js'/>" charset="utf-8"></script>
 
 <body>
-	<br>
-	<div class="container-fluid">
+	<footer id="footer">
 		<br> <br>
-		<div class="row">
-			<div class="col-md-1"></div>
-			<h2 class="col-md-3" style="float: center; text-align: center">인기곡
-				리스트</h2>
-		</div>
-		<!-- <h1 style="float: center; text-align: left">인기곡 리스트</h1>-->
-		<div class="container">
-			<table class="table table-condensed">
-				<tr>
-					<td>순위</td>
-					<td>회사</td>
-					<td>번호</td>
-					<td>제목</td>
-					<td>가수</td>
-				</tr>
-			</table>
-		</div>
-	</div>
+		<p>
+			<a href="#" style="text-decoration: none;">▲ TOP</a>
+		</p>
+		<p>Copyright © 너의 18번을 들려줘</p>
+	</footer>
 </body>
+</html>

@@ -36,4 +36,12 @@ public class PageController {
     public String join_next() {
         return "page/join_next";
     }
+    @RequestMapping(value="map", method=RequestMethod.GET)
+    public String map() {
+        return "page/map";
+    }
+    @RequestMapping(value="notice", method=RequestMethod.GET)
+    public String notice() {
+        return "page/notice";
+    }
 }
