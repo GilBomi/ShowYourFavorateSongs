@@ -4,59 +4,149 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<c:url var="R" value="/" />
+<!-- 이게 원래 css코드임 
 <link
 	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
 	rel="stylesheet" media="screen">
+	-->
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="${R}res/common.js"></script>
 <link rel="stylesheet" href="${R}res/common.css">
-<%@ include file="/WEB-INF/include/top.jsp"%>
-<%@ include file="/WEB-INF/include/top2.jsp"%>
+
+
 <!-- jQuery -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="<c:url value='/js/common.js'/>" charset="utf-8"></script>
-<c:url var="R" value="/" />
+
 <body>
-	<br>
-	<div class="container">
-		<div class="row">
-			<div class="col-md-2"></div>
-			<div class="col-md-2">마루 님</div>
-			<a class="btn btn-danger btn-sm col-md-1" href="#" role="button">정보
-				수정</a> <a href="#"><span class="col-md-2"
-				style="float: center; text-align: center"> 내가 쓴 글 </span></a> <a
-				href="#"><span class="col-md-2"
-				style="float: center; text-align: center"> 내가 쓴 댓글 </span></a> <a
-				href="#"><span class="col-md-2"
-				style="float: center; text-align: center"> 좋아요 한 글 </span></a> <br>
-			<br>
-			<div class="col-md-2"></div>
-			<button type="button" class="btn btn-default">한줄소개</button>
-			<span>멍멍이에요</span> <br> <br>
-			<div class="col-md-2"></div>
-			<button type="button" class="btn btn-default">팔로우</button>
-			<span>후유</span> <span>유녕이짱</span> <span>소여니짱</span> <span>작은애</span>
-			<br> <br> <br>
-			<div class="col-md-2"></div>
-			<div class="col-md-2">
-				<h4>
-					<strong>내 리스트</strong>
-				</h4>
-			</div>
-			<div class="container">
-				<table class="table table-condensed">
-					<tr>
-						<td>태진</td>
-						<td>금영</td>
-						<td>제목</td>
-						<td>가수</td>
-					</tr>
-				</table>
+	<div id="wrap">
+		<header id="header">
+			<%@ include file="/WEB-INF/include/top.jsp"%>
+			<%@ include file="/WEB-INF/include/top2_board.jsp"%>
+		</header>
+		<section>
+			<!--본문 작성-->
+			<div id="content">
+				<div style="text-align: center; padding-top: 200px; padding-bottom: 20px;">
+					<h1 style="font-size: 20pt">zi존보컬님의 개인페이지</h1>
+				</div>
+
+				<hr style="margin-bottom: -2px; border: 0;height: 1px; background: #E6E6E6; clear: both;">
+
+				<div class="container" style="margin-bottom: 100px; margin-top: 50px;">
+					<div class="jumbotron">
+						<span style="float: left; margin-right: 10px; padding-top: 5px;"><h3>zi존보컬</h3></span>
+
+						<button type="button" class="btn btn-primary btn5" style="margin-right: 40px;border: 1px solid #BDBDBD;background: #fff;color: #BDBDBD;" onclick="location.href='changeProfile.html'">정보 수정</button>
+
+						<button type="button" class="btn btn-primary btn4" data-follow>팔로우</button>
+
+						<div class="btn btn-primary btn4" style="border: 1px solid #BDBDBD;background: #fff;color: #BDBDBD;">0</div>
+
+						<!--유저 삭제-->
+						<button type="button" class="btn btn-primary btn3" data-user-ban style="float: right; border: 1px solid #FA5858; background:#FA5858;">유저 삭제</button>
+
+						<div style="margin-top: 30px; color: #2E2E2E;">
+							<span style="font-weight: bold;">
+								<a href="#modalLayer" class="modalLink" style="text-decoration: none; margin-right: 20px;">팔로우 2</a>
+							</span>
+							<span style="font-weight: bold; margin-right: 20px;">
+								<a href="userPost.html" style="text-decoration: none;">포스트 0</a>
+							</span>
+							<span style="font-weight: bold; margin-right: 20px;">
+								<a href="userReply.html" style="text-decoration: none;">댓글 2</a>
+							</span>
+							<span style="font-weight: bold; margin-right: 20px;">
+								<a href="userLike.html" style="text-decoration: none;">좋아요 1</a>
+							</span>
+							
+						</div>
+						<hr class="my-4">
+						<div style="margin-top: 30px; color: #2E2E2E;">
+							<p>안녕하세요 대한민국 보컬의 마지막 자존심 지존보컬입니다</p>
+						</div>
+					</div>
+				</div>
+
+				<div style="padding-bottom: 10px; text-align: center;">
+					<h1 style="font-size: 15pt">Zi존보컬님의 애창곡 목록</h1>
+				</div>
+				<hr style="margin-bottom: 20px; border: 0;height: 1px; background: #E6E6E6; clear: both;">
+
+				<div class="container" style="margin-bottom: 200px;">
+					<div class="jumbotron" style="margin-top: 10px;">
+						<div class="form-group" style="margin-bottom: 50px;">
+							<select class="custom-select">
+								<option value="1">가수로 정렬</option>
+								<option value="2">제목으로 정렬</option>
+							</select>
+						</div>
+						<table class="table table-hover" style="color: #2E2E2E;">
+							<thead>
+								<tr>
+									<th style="font-weight: bold; font-size: 12pt;">태진</th>
+									<th style="font-weight: bold; font-size: 12pt;">금영</th>
+									<th style="font-weight: bold; font-size: 12pt;">곡명</th>
+									<th style="font-weight: bold; font-size: 12pt;">가수</th>
+								</tr>
+							</thead>
+
+							<tbody>
+								<tr data-delete-list style="cursor:pointer">
+									<td>8797</td>
+									<td>6286</td>
+									<td>Tears</td>
+									<td>소찬휘</td>
+								</tr>
+
+								<tr data-delete-list style="cursor:pointer">
+									<td>46732</td>
+									<td>88725</td>
+									<td>Lazenca, Save Us(우리동네음악대장)</td>
+									<td>하현우</td>
+								</tr>
+
+								<tr data-delete-list style="cursor:pointer">
+									<td>96806</td>
+									<td>49720</td>
+									<td>My Way</td>
+									<td>이수</td>
+								</tr>
+
+							</tbody>
+
+						</table>
+
+					</div>
+				</div>
+
+				<div id="modalLayer">
+					<div class="modalContent">
+						팔로우 목록
+						<table>
+							<tr id="tr">
+								<td><a href="user2.html"  style="cursor:pointer" >노래방죽순이</a></td>
+							</tr>
+							<tr>
+								<td><a href="#"  style="cursor:pointer" >BTS</a></td>
+							</tr>
+						</table>
+						<button type="button" class="btn btn-primary btn3" style="float: right; border: 1px solid #FA5858; background:#FA5858;">닫기</button>
+
+					</div>
+				</div>
+
 			</div>
 
-		</div>
+		</section>
+
+		<!--푸터-->
+		<%@ include file="/WEB-INF/include/footer.jsp"%>
+
+	</div>
 </body>

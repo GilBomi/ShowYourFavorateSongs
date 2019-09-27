@@ -218,11 +218,10 @@
 			<%@ include file="/WEB-INF/include/top2_board.jsp"%>
 		</header>
 		<div id="content">
-
-			<div
-				style="text-align: center; padding-top: 200px; padding-bottom: 20px;">
-				<h1 style="font-size: 23pt">지도</h1>
-			</div>
+			<%@ include file="/WEB-INF/include/informationList.jsp"%>
+			<div style="text-align: center; padding-top: 100px; padding-bottom: 20px;">
+					<h1 style="font-size: 23pt">지도</h1>
+				</div>
 		
 		<br> <br>
 		<div class="container-fluid">

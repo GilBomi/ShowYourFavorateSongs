@@ -5,11 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <c:url var="R" value="/" />
-<!-- 이게 원래 css인데...
-<link
-	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-	rel="stylesheet" media="screen">
-	-->
+
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script
@@ -21,7 +17,7 @@
 <!-- jQuery -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script src="<c:url value='/js/common.js'/>" charset="utf-8"></script>
+
 
 <body>
 	<div id="wrap">
@@ -42,7 +38,7 @@
 								placeholder="곡 제목 혹은 가수 검색" style="text-align: center;">
 							<div style="text-align: center; margin-top: 30px;">
 								<button type="button" class="btn btn-primary"
-									style="width: 200px;" onclick="location.href='search.html'">찾기</button>
+									style="width: 200px;" onclick="location.href='searchingSong'">찾기</button>
 							</div>
 						</div>
 					</div>
@@ -62,7 +58,7 @@
 									더 쉽고 빠르게 노래방을 즐기세요</p>
 								<button type="button" class="btn btn-primary"
 									style="margin-top: 40px; width: 120px;"
-									onclick="location.href='login.html'">바로 가기</button>
+									onclick="location.href='login'">바로 가기</button>
 							</div>
 							<div
 								style="width: 333px; height: 350px; background: #D8D8D8; margin-right: 21px; padding: 60px 30px; text-align: center;">
@@ -72,7 +68,7 @@
 									읽어보세요</p>
 								<button type="button" class="btn btn-primary"
 									style="margin-top: 40px; width: 120px;"
-									onclick="location.href='best.html'">바로 가기</button>
+									onclick="location.href='bestBoard'">바로 가기</button>
 							</div>
 							<div
 								style="width: 333px; height: 350px; background: #D8D8D8; padding: 60px 30px; text-align: center;">
@@ -82,7 +78,7 @@
 									찾아보세요</p>
 								<button type="button" class="btn btn-primary"
 									style="margin-top: 40px; width: 120px;"
-									onclick="location.href='karaMap.html'">바로 가기</button>
+									onclick="location.href='map'">바로 가기</button>
 							</div>
 						</div>
 					</div>

@@ -15,6 +15,12 @@
 
  /*추가추가추가추가추가추가*/
 
+ .mask{width:100%; height:100%; position:fixed; left:0; top:0; z-index:10; background:#000; opacity:.5; filter:alpha(opacity=50);}
+
+#modalLayer{display:none; position:relative;}
+#modalLayer .modalContent{width:440px; height:200px; padding:20px; border:1px solid #ccc; position:fixed; left:50%; top:50%; z-index:11; background:#fff;}
+#modalLayer .modalContent button{position:absolute; right:0; top:0; cursor:pointer;}
+
  #wrap{
   float:left;
   width:100%; 
@@ -228,6 +234,14 @@
 
 .btn-primary.btn3{
   padding: 0.5rem 1rem;
+}
+
+.btn-primary.btn4{
+  padding: 0.5rem 1rem;
+}
+
+.btn-primary.btn5{
+  padding: 0.2rem 1rem;
 }
 
 .search-song {
