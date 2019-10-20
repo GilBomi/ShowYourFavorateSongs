@@ -33,44 +33,98 @@
 				<div class="container-fluid">
 					<div
 						style="margin: 300px 600px 200px; width: 700px; background-color: rgba(255, 255, 255, 0.8); padding: 100px;">
-						<form id="form">
+						<form method="post" modelAttribute="users"
+							onsubmit="return check()">
 							<fieldset style="color: #585858">
 								<legend>
 									<h1 style="color: #1C1C1C">회원가입</h1>
 								</legend>
 								<hr style="margin-bottom: 20px;">
+								<script type="application/javascript">
+									
+								var e="";
+								var n="";
+								function emailCheck() {
+									var email = $('#email').val();
+									if(email.indexOf('@')==-1) {
+										alert('이메일 형식으로 입력해주세요.');
+										e="false";
+										return;
+									}
+									else {
+										<c:forEach var="user" items="${users}">
+										if('${user.email}'==email) {
+											alert('이메일 중복입니다. 다시 입력하세요.');
+											e="false";
+											return;
+										}
+										                                
+									</c:forEach>
+									}
+									alert('이메일 중복 체크 완료되었습니다.');
+									e="true";
+								}		
+								function nicknameCheck() {
+									var nickname = $('#nickname').val();
+									<c:forEach var="user" items="${users}">
+										if('${user.nickname}'==nickname) {
+											alert('닉네임 중복입니다. 다시 입력하세요.');
+											n="false";
+											return;
+										}
+										                                
+									</c:forEach>
+									alert('닉네임 중복 체크 완료되었습니다.');
+									n="true";
+								}	
+
+								function check() {
+									var password = $('#password').val();
+									var password2 = $('#password2').val();
+
+									if(password!=password2) {
+										alert('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
+										return false;
+									}
+									if(e=="true" && n=="true")
+										return true;
+									alert("중복체크 확인해주세요");
+									return false;
+								}			
+		
+</script>
 								<div class="form-group">
-									<label for="inputEmail1">아이디</label> <input type="text"
-										class="form-control" id="inputId" aria-describedby="emailHelp"
-										placeholder="아이디 입력" required="required">
+									<label for="inputEmail1">이메일</label> <input type="email"
+										class="form-control" id="email" name="email"
+										aria-describedby="emailHelp" placeholder="이메일 입력"
+										width="100px;" required>
+										<button type="button" class="btn btn-primary"
+										style="margin-top: 20px;" onclick="emailCheck()">중복 체크</button>
+										
+
 								</div>
 								<div class="form-group">
 									<label for="inputPassword1">비밀번호</label> <input type="password"
-										class="form-control" id="inputPassword1" placeholder="비밀번호 입력"
-										required>
+										class="form-control" id="password" name="password"
+										placeholder="비밀번호 입력" required>
 								</div>
 								<div class="form-group">
 									<label for="inputPassword2">비밀번호 확인</label> <input
-										type="password" class="form-control" id="inputPassword2"
+										type="password" class="form-control" id="password2"
 										placeholder="비밀번호 확인" required>
 								</div>
 								<div class="form-group">
 									<label for="userName">닉네임</label> <input type="text"
-										class="form-control" id="userName"
+										class="form-control" id="nickname" name="nickname"
 										aria-describedby="emailHelp" placeholder="닉네임 입력" required>
-								</div>
-								<div class="form-group">
-									<label for="inputEmail1">이메일 주소</label> <input type="email"
-										class="form-control" id="inputEmail1"
-										aria-describedby="emailHelp" placeholder="이메일 주소 입력"
-										value="tempId123@naver.com" required>
+									<button type="button" class="btn btn-primary"
+										style="margin-top: 20px;" onclick="nicknameCheck()">중복 체크</button>
 								</div>
 
-								<button type="submit" id="button"
-									class="btn btn-primary btn-block"
-									onclick="button1_click(); return false;"
+								<button type="submit" class="btn btn-primary btn-block"
 									style="margin-top: 50px;">다음 단계</button>
-								<script type="text/javascript">
+								<!--  onclick="button1_click(); return false;"-->
+								<!--<script type="text/javascript">
 									function button1_click() {
 
 										var id = $('#inputId').val();
@@ -84,7 +138,7 @@
 												&& password2 != ''
 												&& userName != ''
 												&& email != '') {
-											location.href = 'joinNext';
+											location.href="joinNext"
 										} else {
 											if (id == '') {
 												document
@@ -108,7 +162,7 @@
 											}
 										}
 									}
-								</script>
+								</script>-->
 							</fieldset>
 						</form>
 					</div>

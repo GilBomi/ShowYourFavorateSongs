@@ -32,11 +32,13 @@
 		<section>
 			<div id="content">
 				<%@ include file="/WEB-INF/include/communityList.jsp"%>
-				<div style="text-align: center; padding-top: 100px; padding-bottom: 20px;">
+				<div
+					style="text-align: center; padding-top: 100px; padding-bottom: 20px;">
 					<h1 style="font-size: 23pt">팁 게시판</h1>
 				</div>
 
-				<hr style="margin-bottom: -2px;border: 0;height: 1px; background: #E6E6E6; clear: both;">
+				<hr
+					style="margin-bottom: -2px; border: 0; height: 1px; background: #E6E6E6; clear: both;">
 
 				<!--게시글 목록 테이블-->
 				<div class="container">
@@ -54,10 +56,8 @@
 						<tbody>
 							<tr>
 								<td>2</td>
-								<td class="title-td">
-									<a href="#" style="text-decoration: none;">라면 맛있게 끓이는 법
-									</a>
-								</td>
+								<td class="title-td"><a href="#"
+									style="text-decoration: none;">라면 맛있게 끓이는 법 </a></td>
 								<td>라면빌런</td>
 								<td>19.09.15</td>
 								<td>55</td>
@@ -65,9 +65,8 @@
 							</tr>
 							<tr>
 								<td>1</td>
-								<td class="title-td">
-									<a href="#" style="text-decoration: none;">노래방 꿀팁 모음.txt</a>
-								</td>
+								<td class="title-td"><a href="#"
+									style="text-decoration: none;">노래방 꿀팁 모음.txt</a></td>
 								<td>노래방죽순이</td>
 								<td>19.09.14</td>
 								<td>101</td>
@@ -86,50 +85,35 @@
 								<td>추천수</td>
 							</tr>
 						-->
-					</tbody>
-				</table>
+						</tbody>
+					</table>
 
-				<div class="text-center" style="margin-top: 100px;">
-					<!--페이지네이션-->
-					<ul class="pagination">
-						<li class="page-item disabled">
-							<a class="page-link" href="#">&laquo;</a>
-						</li>
-						<li class="page-item active">
-							<a class="page-link" href="#">1</a>
-						</li>
-						<li class="page-item disabled">
-							<a class="page-link" href="#">&raquo;</a>
-						</li>
-					</ul>
+					<div class="text-center" style="margin-top: 100px;">
+						<!--페이지네이션-->
+						<ul class="pagination">
+							<li class="page-item disabled"><a class="page-link" href="#">&laquo;</a>
+							</li>
+							<li class="page-item active"><a class="page-link" href="#">1</a>
+							</li>
+							<li class="page-item disabled"><a class="page-link" href="#">&raquo;</a>
+							</li>
+						</ul>
 
-					<!--글작성-->
-					<button type="button" class="btn btn-primary btn3" style="float: right; margin-right: 10px;" onclick ="location.href='postWrite'">글작성</button>
-				</div>
+						<!--글작성-->
+						<button type="button" class="btn btn-primary btn3"
+							style="float: right; margin-right: 10px;"
+							onclick="location.href='postWrite'">글작성</button>
+					</div>
 
-				<br>
-				<br>
+					<br> <br>
 
-				<!--검색-->
-				<div>
-					<form class="form-inline my-2 my-lg-0">
-						<select class="form-control" name="search_type">
-							<option value="all">전체</option>
-							<option value="title">제목</option>
-							<option value="writer">작성자</option>
-						</select>
-						<input class="form-control mr-sm-2" type="text" placeholder="" style="margin-left:-3px">
-						<button class="btn btn-secondary my-2 my-sm-0" type="submit" style="height: 45px;width: 100px;margin-left:-10px;padding-top: 10px;">찾기</button>
-					</form>
-				</div>
+					<!--검색-->
 
-				<br>
-				<br>
-				<br>
-				<br>
-
-			</div>
-
+					<%@ include file="/WEB-INF/include/searching.jsp"%>
+					<br>
+					<br>
+					<br>
+					<br>
 		</section>
 		<!--푸터-->
 		<%@ include file="/WEB-INF/include/footer.jsp"%>

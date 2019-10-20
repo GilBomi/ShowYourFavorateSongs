@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+             "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.skhu.mapper.UserMapper">
+
+  <cache flushInterval="10000" />
+    
+   <insert id="insert" useGeneratedKeys="true" keyProperty="user_idx">
+    INSERT User (password, nickname, email, user_auth,auth_key,message,manager)
+    VALUES (#{password}, #{nickname}, #{email}, #{user_auth},#{auth_key},#{message},#{manager})
+  </insert>
+  
+    <select id="findOne" resultType="User">
+    SELECT * FROM User WHERE email = #{email}
+  	</select>
+
+</mapper>

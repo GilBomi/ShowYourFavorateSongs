@@ -31,55 +31,29 @@
 			<%@ include file="/WEB-INF/include/top.jsp"%>
 		</header>
 
-
-		<section>
+<section>
 			<div id="content">
 				<div class="container-fluid">
-					<div
-						style="margin: 300px 600px 200px; width: 700px; background-color: rgba(255, 255, 255, 0.8); padding: 100px;">
-						<form method="post" modelAttribute="users" onsubmit="return check()">
-							<fieldset style="color: #585858">
-								<legend>
-									<h1 style="color: #1C1C1C">비밀번호 찾기</h1>
-								</legend>
-								<p>
-									<small>비밀번호를 찾기 위해 아래 정보를 입력하세요</small>
-								</p>
-							<script type="application/javascript">
-								function check() {
-									var email = $('#email').val();
 
-									<c:forEach var="user" items="${users}">
-									if('${user.email}'==email) {
-										return true;
-									}
-									                                
-								</c:forEach>
-								alert('존재하지 않는 이메일입니다.');
-								$('#email').val('');
-								return false;
-								}			
-		
-							</script>
-								<hr style="margin-bottom: 20px;">
-								<div class="form-group">
-									<label for="inputEmail1">이메일 주소</label> <input type="email"
-										class="form-control" id="email" name="email"
-										aria-describedby="emailHelp" placeholder="이메일 주소 입력" required>
-								</div>
+					<div style="margin: 300px 600px 200px; width: 700px;background-color:rgba( 255, 255, 255, 0.8 ); padding: 100px;">
 
-								<button type="submit" class="btn btn-primary btn-block" 
-									style="margin-top: 20px;">다음 단계</button>
-								
-							</fieldset>
-						</form>
+						<h1 style="color: #1C1C1C">인증 완료</h1>
+						<hr style="margin-bottom: 20px;">
+						<div style="color: #1C1C1C; font-weight: 400;">
+							인증이 완료되었습니다.<br>
+							로그인 해주세요.
+						</div>
+						<button type="button" class="btn btn-primary btn-block" onclick ="location.href='login'" style="margin-top: 50px;">로그인
+						</button>
+
 					</div>
-
+					
 				</div>
 
 			</div>
-
+			
 		</section>
+
 		<!--푸터-->
 		<footer id="footer">
 			<br> <br>

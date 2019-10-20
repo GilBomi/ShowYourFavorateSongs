@@ -1,12 +1,18 @@
 package net.skhu.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import net.skhu.dto.User;
+import net.skhu.mapper.UserMapper;
 
 @Controller
 @RequestMapping("/page")
 public class PageController {
+    @Autowired UserMapper userMapper;
 
     @RequestMapping(value="home", method=RequestMethod.GET)
     public String list() {
@@ -87,5 +93,11 @@ public class PageController {
     @RequestMapping(value="postWrite", method=RequestMethod.GET)
     public String postWrite() {
         return "page/postWrite";
+    }
+    @RequestMapping(value="join", method=RequestMethod.POST)
+    public String join(Model model, User user) {
+        userMapper.insert(user);
+        System.out.println("post!!!!!!!!!!!");
+        return "page/join_success";
     }
 }

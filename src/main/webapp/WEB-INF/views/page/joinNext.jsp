@@ -37,10 +37,10 @@
 
 					<div style="margin: 300px 600px 200px; width: 700px;background-color:rgba( 255, 255, 255, 0.8 ); padding: 100px;">
 
-						<h1 style="color: #1C1C1C">회훤가입</h1>
+						<h1 style="color: #1C1C1C">회원가입</h1>
 						<hr style="margin-bottom: 20px;">
 						<div style="color: #1C1C1C; font-weight: 400;">
-							"tempId123@naver.com"으로 인증 메일을 보냈습니다.<br>
+							${user.email}으로 인증 메일을 보냈습니다.<br>
 							메일을 확인해 회원 가입을 마무리 하세요.
 						</div>
 						<button type="button" class="btn btn-primary btn-block" onclick ="location.href='home'" style="margin-top: 50px;">메인으로

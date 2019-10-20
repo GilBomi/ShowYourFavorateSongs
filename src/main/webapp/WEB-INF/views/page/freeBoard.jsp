@@ -123,18 +123,7 @@
 					<br>
 					
 					<!--검색-->
-					<div style="clear: both;">
-						<form class="form-inline my-2 my-lg-0">
-							<select class="form-control" name="search_type">
-								<option value="all">전체</option>
-								<option value="title">제목</option>
-								<option value="writer">작성자</option>
-							</select>
-							<input class="form-control mr-sm-2" type="text" placeholder="" style="margin-left:-3px">
-							<button class="btn btn-secondary my-2 my-sm-0" type="submit" style="height: 45px;width: 100px;margin-left:-10px;padding-top: 10px;">찾기</button>
-						</form>
-					</div>
-
+					<%@ include file="/WEB-INF/include/searching.jsp"%>
 					<br>
 					<br>
 					<br>

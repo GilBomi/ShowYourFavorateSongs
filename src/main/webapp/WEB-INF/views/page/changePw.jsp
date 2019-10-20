@@ -31,54 +31,47 @@
 			<%@ include file="/WEB-INF/include/top.jsp"%>
 		</header>
 
-
-		<section>
+<section>
 			<div id="content">
 				<div class="container-fluid">
-					<div
-						style="margin: 300px 600px 200px; width: 700px; background-color: rgba(255, 255, 255, 0.8); padding: 100px;">
-						<form method="post" modelAttribute="users" onsubmit="return check()">
+					<div style="margin: 300px 600px 200px; width: 700px;background-color:rgba( 255, 255, 255, 0.8 ); padding: 100px;">
+						<form method="post" modelAttribute="users"
+							onsubmit="return check()">
 							<fieldset style="color: #585858">
-								<legend>
-									<h1 style="color: #1C1C1C">비밀번호 찾기</h1>
-								</legend>
-								<p>
-									<small>비밀번호를 찾기 위해 아래 정보를 입력하세요</small>
-								</p>
+								<legend><h1 style="color: #1C1C1C">비밀번호 변경</h1></legend>
+								<hr style="margin-bottom: 20px;">
 							<script type="application/javascript">
-								function check() {
-									var email = $('#email').val();
 
-									<c:forEach var="user" items="${users}">
-									if('${user.email}'==email) {
-										return true;
+								function check() {
+									var password = $('#password').val();
+									var password2 = $('#password2').val();
+
+									if(password!=password2) {
+										alert('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
+										return false;
 									}
-									                                
-								</c:forEach>
-								alert('존재하지 않는 이메일입니다.');
-								$('#email').val('');
-								return false;
+									return true;
 								}			
 		
 							</script>
-								<hr style="margin-bottom: 20px;">
 								<div class="form-group">
-									<label for="inputEmail1">이메일 주소</label> <input type="email"
-										class="form-control" id="email" name="email"
-										aria-describedby="emailHelp" placeholder="이메일 주소 입력" required>
+									<label for="inputPassword1">비밀번호</label>
+									<input type="password" class="form-control" id="password" name="password" placeholder="비밀번호 입력">
 								</div>
-
-								<button type="submit" class="btn btn-primary btn-block" 
-									style="margin-top: 20px;">다음 단계</button>
-								
+								<div class="form-group">
+									<label for="inputPassword2">비밀번호 확인</label>
+									<input type="password" class="form-control" id="password2" placeholder="비밀번호 확인">
+								</div>
+								<button type="submit" class="btn btn-primary btn-block" style="margin-top: 50px;">확인
+								</button>
 							</fieldset>
 						</form>
 					</div>
-
+					
 				</div>
 
 			</div>
-
+			
 		</section>
 		<!--푸터-->
 		<footer id="footer">

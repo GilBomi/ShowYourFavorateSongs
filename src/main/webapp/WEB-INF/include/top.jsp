@@ -29,9 +29,8 @@
 		<div class="container-fluid">
 
 			<!--메인 링크-->
-			<a class="navbar-brand" data-url="home"
-						style="cursor: pointer">너의 18번을
-				들려줘&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| </a>
+			<a class="navbar-brand" data-url="home" style="cursor: pointer">너의
+				18번을 들려줘&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| </a>
 
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
 				data-target="#navbarColor01" aria-controls="navbarColor01"
@@ -50,37 +49,73 @@
 						style="cursor: pointer">공지사항</a>
 					</li>
 					<li class="nav-item">
-						<!--차트 링크--> <a class="nav-link" style="cursor: pointer" data-url="chartBoard">인기차트</a>
+						<!--차트 링크--> <a class="nav-link" style="cursor: pointer"
+						data-url="chartBoard">인기차트</a>
 					</li>
 					<li class="nav-item dropdown">
 						<!--커뮤니티 링크--> <a class="nav-link dropdown-toggle"
-						data-toggle="dropdown" data-url="bestBoard" style="cursor: pointer" role="button"
-						aria-haspopup="true" aria-expanded="false">커뮤니티</a>
+						data-toggle="dropdown" data-url="bestBoard"
+						style="cursor: pointer" role="button" aria-haspopup="true"
+						aria-expanded="false">커뮤니티</a>
 						<ul class="dropdown-menu" role="menu">
-							<li><a style="cursor: pointer" data-url="bestBoard">베스트 게시판</a></li>
-							<li><a style="cursor: pointer" data-url="freeBoard">자유 게시판</a></li>
+							<li><a style="cursor: pointer" data-url="bestBoard">베스트
+									게시판</a></li>
+							<li><a style="cursor: pointer" data-url="freeBoard">자유
+									게시판</a></li>
 							<li><a style="cursor: pointer" data-url="tipBoard">팁 게시판</a></li>
-							<li><a style="cursor: pointer" data-url="recommendBoard">노래 추천</a></li>
-							<li><a style="cursor: pointer" data-url="boastBoard">전국 노래 자랑</a></li>
+							<li><a style="cursor: pointer" data-url="recommendBoard">노래
+									추천</a></li>
+							<li><a style="cursor: pointer" data-url="boastBoard">전국
+									노래 자랑</a></li>
 						</ul>
 					</li>
 					<li class="nav-item dropdown">
 						<!--정보 링크--> <a class="nav-link dropdown-toggle"
-						data-toggle="dropdown" data-url="map" style="cursor: pointer" role="button"
-						aria-haspopup="true" aria-expanded="false">정보</a>
+						data-toggle="dropdown" data-url="map" style="cursor: pointer"
+						role="button" aria-haspopup="true" aria-expanded="false">정보</a>
 						<ul class="dropdown-menu" role="menu">
 							<li><a data-url="map" style="cursor: pointer">노래방 맵</a></li>
-							<li><a style="cursor: pointer" data-url="relative">관련 사이트</a></li>
+							<li><a style="cursor: pointer" data-url="relative">관련
+									사이트</a></li>
 						</ul>
 					</li>
 				</ul>
-
-				<ul class="nav navbar-nav navbar-right">
-					<li class="nav-item"><a class="nav-link login"
-						data-url="login"
-						style="color: white; cursor: pointer;border: 1px solid #585858; padding: 10px 15px 10px 15px;">로그인</a>
-					</li>
-				</ul>
+				<c:choose>
+					<c:when test="${empty user }">
+						<ul class="nav navbar-nav navbar-right">
+							<li class="nav-item"><a class="nav-link login"
+								data-url="login"
+								style="color: white; cursor: pointer; border: 1px solid #585858; padding: 10px 15px 10px 15px;">로그인</a>
+							</li>
+						</ul>
+					</c:when>
+					<c:otherwise>
+						<c:choose>
+							<c:when test="${user.manager eq 'true' }">
+								<ul class="nav navbar-nav navbar-right">
+									<li class="nav-item"><a class="nav-link login"
+										data-url="login"
+										style="color: white; cursor: pointer; border: 1px solid #585858; padding: 10px 15px 10px 15px;">1로그아웃</a>
+									</li>
+								</ul>
+							</c:when>
+							<c:otherwise>
+								<ul class="nav navbar-nav">
+									<li class="nav-item"><a class="nav-link logout"
+										data-url="user"
+										style="color: white; cursor: pointer; border: 1px solid #585858; padding: 10px 15px 10px 15px;">마이페이지</a>
+									</li>
+								</ul>
+								<ul class="nav navbar-nav">
+									<li class="nav-item"><a class="nav-link login"
+										data-url="logout"
+										style="color: white; cursor: pointer; border: 1px solid #585858;">로그아웃</a>
+									</li>
+								</ul>
+							</c:otherwise>
+						</c:choose>
+					</c:otherwise>
+				</c:choose>
 			</div>
 		</div>
 	</nav>
