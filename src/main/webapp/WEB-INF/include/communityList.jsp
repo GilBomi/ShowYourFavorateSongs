@@ -30,14 +30,14 @@
 			<!--게시판 내비게이션-->
 			<ul class="nav nav-tabs">
 				<li class="nav-item"><a class="nav-link"
-					style="cursor: pointer" data-url="bestBoard">베스트</a></li>
-				<li class="nav-item"><a class="nav-link" style="cursor: pointer" data-url="freeBoard">자유
+					style="cursor: pointer" data-url="/page/bestBoard">베스트</a></li>
+				<li class="nav-item"><a class="nav-link" style="cursor: pointer" data-url="/page/freeBoard?pg=1">자유
 						게시판</a></li>
-				<li class="nav-item"><a class="nav-link" style="cursor: pointer" data-url="tipBoard">팁
+				<li class="nav-item"><a class="nav-link" style="cursor: pointer" data-url="/page/tipBoard">팁
 						게시판</a></li>
-				<li class="nav-item"><a class="nav-link" style="cursor: pointer" data-url="recommendBoard">노래
+				<li class="nav-item"><a class="nav-link" style="cursor: pointer" data-url="/page/recommendBoard">노래
 						추천</a></li>
-				<li class="nav-item"><a class="nav-link" style="cursor: pointer" data-url="boastBoard">전국
+				<li class="nav-item"><a class="nav-link" style="cursor: pointer" data-url="/page/boastBoard">전국
 						노래 자랑</a></li>
 			</ul>
 		</div>

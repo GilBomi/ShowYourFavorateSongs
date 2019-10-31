@@ -55,15 +55,25 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>1</td>
-								<td class="title-td"><a href="#"
-									style="text-decoration: none;">갬성돋는 새벽에 듣는 음악 추천 </a></td>
-								<td>너십팔DJ</td>
-								<td>19.09.15</td>
-								<td>44</td>
-								<td>4</td>
-							</tr>
+							<c:forEach var="post" items="${recomPosts}" varStatus="status">
+								<tr>
+									<c:set var="num"
+										value="${fn:length(recomPosts)-status.index}" />
+									<td><c:out value="${num}" /></td>
+									<td><a href="post/${post.post_id}"
+										style="text-decoration: none; font-weight: bold; color: grey">${post.title}
+									</a></td>
+									<c:set var="theString" value="${post.user.nickname}" />
+									<td><c:if test="${fn:contains(theString,'관리자')}">${post.user.nickname}</c:if>
+										<c:if test="${fn:indexOf(theString,'관리자')==-1}">
+											<a href="user?user_idx=${post.user.user_idx}"
+												style="text-decoration: none; font-weight: bold; color: grey">${post.user.nickname}</a>
+										</c:if></td>
+									<td>${post.date}</td>
+									<td>${post.view}</td>
+									<td>0</td>
+								</tr>
+							</c:forEach>
 
 						</tbody>
 					</table>
@@ -82,7 +92,7 @@
 						<!--글작성-->
 						<button type="button" class="btn btn-primary btn3"
 							style="float: right; margin-right: 10px;"
-							onclick="location.href='postWrite'">글작성</button>
+							onclick="location.href='postWrite/3'">글작성</button>
 					</div>
 
 					<br> <br>

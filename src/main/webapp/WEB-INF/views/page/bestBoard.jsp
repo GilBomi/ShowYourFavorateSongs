@@ -54,21 +54,12 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>1</td>
-								<td class="title-td"><a href="#"
-									style="text-decoration: none;">노래방 꿀팁 모음.txt</a></td>
-								<td>노래방죽순이</td>
-								<td>19.09.13</td>
-								<td>101</td>
-								<td>10</td>
-							</tr>
 
 							<!--게시글
 								<tr>
 								<td>글번호</td>
 								<td class="title-td">
-									<a href="#" style="text-decoration: none;">제목</a>
+									<a href="post/${post.post_id}" style="text-decoration: none;">제목</a>
 								</td>
 								<td>작성자</td>
 								<td>작성일</td>

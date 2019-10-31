@@ -3,7 +3,10 @@
 <title>너의 18번을 들려줘</title>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <c:url var="R" value="/" />
 <!-- 이게 원래 css코드임 
 <link
@@ -33,11 +36,13 @@
 			<div id="content">
 				<%@ include file="/WEB-INF/include/communityList.jsp"%>
 
-			<div style="text-align: center; padding-top: 100px; padding-bottom: 20px;">
+				<div
+					style="text-align: center; padding-top: 100px; padding-bottom: 20px;">
 					<h1 style="font-size: 23pt">자유게시판</h1>
 				</div>
 
-				<hr style="margin-bottom: -2px;border: 0;height: 1px; background: #E6E6E6; clear: both;">
+				<hr
+					style="margin-bottom: -2px; border: 0; height: 1px; background: #E6E6E6; clear: both;">
 
 				<!--게시글 목록 테이블-->
 				<div class="container">
@@ -54,81 +59,82 @@
 						</thead>
 
 						<tbody>
-							<tr><!--게시글 링크1-->
-								<td>4</td>
-								<td class="title-td">
-									<a href="01.html" style="text-decoration: none;">안녕하세요. 방탄소년단입니다.
-									</a>
-								</td>
-								<td>BTS</td>
-								<td>19.09.17</td>
-								<td>99</td>
-								<td>3</td>
-							</tr>
-							<tr>
-								<td>3</td>
-								<td class="title-td">
-									<a href="#" style="text-decoration: none;">안녕하심니까..횐님덜*^^*..지금막..가입했읍니다..~
-									</a>
-								</td>
-								<td>아재</td>
-								<td>19.09.17</td>
-								<td>14</td>
-								<td>1</td>
-							</tr>
-							<tr>
-								<td>2</td>
-								<td class="title-td">
-									<a href="#" style="text-decoration: none;">가입인사 오지고 지리고 렛잇고 박고가는 부분 ㅇㅈ?
-									</a>
-								</td>
-								<td>급식생</td>
-								<td>19.09.15</td>
-								<td>11</td>
-								<td>0</td>
-							</tr>
-							<tr>
-								<td>1</td>
-								<td class="title-td">
-									<a href="#" style="text-decoration: none;">안녕하세요. 오늘 가입했습니다^^</a>
-								</td>
-								<td>홍길동</td>
-								<td>19.09.15</td>
-								<td>17</td>
-								<td>0</td>
-							</tr>
+							<c:forEach var="post" items="${freePosts}" varStatus="status">
+								<c:set var="num" value="${fn:length(freePosts)-status.index}" />
+								<c:if
+									test="${num>fn:length(freePosts)-10*pg && num<=fn:length(freePosts)-10*(pg-1)}">
+									<tr>
+										<td><c:out value="${num}" /></td>
+										<td><a href="post/${post.post_id}"
+											style="text-decoration: none; font-weight: bold; color: grey">${post.title}
+										</a></td>
+										<c:set var="theString" value="${post.user.nickname}" />
+										<td><c:if test="${fn:contains(theString,'관리자')}">${post.user.nickname}</c:if>
+											<c:if test="${fn:indexOf(theString,'관리자')==-1}">
+												<a href="user?user_idx=${post.user.user_idx}"
+													style="text-decoration: none; font-weight: bold; color: grey">${post.user.nickname}</a>
+											</c:if></td>
+										<td>${post.date}</td>
+										<td>${post.view}</td>
+										<td>0</td>
+									</tr>
+								</c:if>
+							</c:forEach>
+
 						</tbody>
 					</table>
 
-					
 					<div class="text-center" style="margin-top: 100px;">
 						<!--페이지네이션-->
 						<ul class="pagination">
-							<li class="page-item disabled">
-								<a class="page-link" href="#">&laquo;</a>
-							</li>
-							<li class="page-item active">
-								<a class="page-link" href="#">1</a>
-							</li>
-							<li class="page-item disabled">
-								<a class="page-link" href="#">&raquo;</a>
-							</li>
+							<!-- 한 페이지당 10개 게시글일때 총 몇 페이지인지 -->
+							<fmt:parseNumber var="totalPg"
+								value="${fn:length(freePosts)/10+(1-((fn:length(freePosts)/10)%1))%1}"
+								integerOnly="true" />
+							<!-- 1,2,3같이 페이지 3개가 한 페이지네이션일때 총 몇 페이지네이션이 나오는지 -->
+							<fmt:parseNumber var="paginationTotal"
+								value="${totalPg/3+(1-((totalPg/3)%1))%1}" integerOnly="true" />
+							<!-- 현재 페이지가 몇번의 페이지네이션에 속하는지 -->
+							<fmt:parseNumber var="paginationNum"
+								value="${pg/3+(1-((pg/3)%1))%1}" integerOnly="true" />
+							<!-- 다음 페이지네이션의 맨 첫번째 페이지 번호 -->
+							<fmt:parseNumber var="paginationNext"
+								value="${3*paginationNum+1}" integerOnly="true" />
+							<!-- 이전 페이지네이션의 맨 마지막 페이지 번호 -->
+							<fmt:parseNumber var="paginationPrevious"
+								value="${3*(paginationNum-1)}" integerOnly="true" />
+
+							<c:if test="${pg eq 1}">
+								<li class="page-item disabled"><a class="page-link"
+									href="#">Previous</a></li>
+							</c:if>
+							<c:if test="${pg ne 1}">
+								<li class="page-item"><a class="page-link"
+									href="/page/freeBoard?pg=${paginationPrevious}">Previous</a></li>
+							</c:if>
+							<c:forEach var="i" begin="1" end="${totalPg}" step="3">
+								<c:if test="${i>(paginationNum-1)*3 && (i+2)<=paginationNum*3}">
+									<li class="page-item <c:if test="${pg eq i}">active</c:if>"><a class="page-link" href="/page/freeBoard?pg=${i}">${i}</a></li>
+									<li class="page-item <c:if test="${pg eq (i+1)}">active</c:if>"><a class="page-link" href="/page/freeBoard?pg=${i+1}">${i+1}</a></li>
+									<li class="page-item <c:if test="${pg eq (i+2)}">active</c:if>"><a class="page-link" href="/page/freeBoard?pg=${i+2}">${i+2}</a></li>
+								</c:if>
+							</c:forEach>
+							<li class="page-item" style="border: 1px solid white"><a
+								class="page-link" href="/page/freeBoard?pg=${paginationNext}">Next</a></li>
 						</ul>
 
 						<!--글작성-->
-						<button type="button" class="btn btn-primary btn3" style="float: right; margin-right: 10px;" onclick ="location.href='postWrite'">글작성</button>
+						<button type="button" class="btn btn-primary btn3"
+							style="float: right; margin-right: 10px;"
+							onclick="location.href='postWrite/1'">글작성</button>
 					</div>
 
-					<br>
-					<br>
-					
+					<br> <br>
+
 					<!--검색-->
 					<%@ include file="/WEB-INF/include/searching.jsp"%>
-					<br>
-					<br>
-					<br>
-					<br>
-					
+					<br> <br> <br> <br>
+
 				</div>
 			</div>
 

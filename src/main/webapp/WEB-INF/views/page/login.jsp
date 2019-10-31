@@ -51,7 +51,14 @@
 									<c:forEach var="user" items="${users}">
 									if('${user.email}'==email) {
 										if('${user.password}'==password) {
-											return true;
+											if(${user.user_auth}==true) {
+												return true;
+											}
+											alert('이메일 인증을 완료하세요.');
+											$('#email').val('');
+											$('#password').val('');
+											return false;		
+											
 										}
 									}
 									                                

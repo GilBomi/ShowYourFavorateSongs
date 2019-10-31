@@ -52,45 +52,29 @@
 								<th>작성자</th>
 								<th>날짜</th>
 								<th>조회</th>
+								<th>추천</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>3</td>
-								<td class="title-td"><a href="#"
-									style="text-decoration: none;">사랑합니다 고객님♥</a></td>
-								<td>관리자</td>
-								<td>19.09.19</td>
-								<td>22</td>
-							</tr>
-							<tr>
-								<td>2</td>
-								<td class="title-td"><a href="#"
-									style="text-decoration: none;">게시판 이용 규칙</a></td>
-								<td>관리자</td>
-								<td>19.09.17</td>
-								<td>55</td>
-							</tr>
-							<tr>
-								<td>1</td>
-								<td class="title-td"><a href="#"
-									style="text-decoration: none;">너의 18번을 들려줘를 이용해 주셔서 감사합니다</a></td>
-								<td>관리자</td>
-								<td>19.09.15</td>
-								<td>33</td>
-							</tr>
-
-							<!--게시글:
+							<%!int num = 0;%>
+							<c:forEach var="post" items="${notices}">
+								<%
+									num++;
+								%>
+							</c:forEach>
+							<c:forEach var="post" items="${notices}">
 								<tr>
-								<td>글번호</td>
-								<td class="title-td">
-									<a href="#" style="text-decoration: none;">제목</a>
-								</td>
-								<td>작성자</td>
-								<td>작성일</td>
-								<td>조회수</td>
-							</tr>
-							-->
+									<td><%=num--%></td>
+									<td><a href="post/${post.post_id}"
+										style="text-decoration: none; font-weight: bold; color: grey">${post.title}
+									</a></td>
+									<td>${post.user.nickname}</td>
+									<td>${post.date}</td>
+									<td>${post.view}</td>
+									<td>0</td>
+								</tr>
+							</c:forEach>
+
 						</tbody>
 					</table>
 
@@ -104,10 +88,14 @@
 							<li class="page-item disabled"><a class="page-link" href="#">&raquo;</a>
 							</li>
 						</ul>
-						<!--글작성-->
-						<button type="button" class="btn btn-primary btn3"
-							style="float: right; margin-right: 10px;"
-							onclick="location.href='postWrite_notice.html'">글작성</button>
+						<c:choose>
+							<c:when test="${user.manager eq 'true' }">
+								<!--글작성-->
+								<button type="button" class="btn btn-primary btn3"
+									style="float: right; margin-right: 10px;"
+									onclick="location.href='postWrite'">글작성</button>
+							</c:when>
+						</c:choose>
 					</div>
 
 					<br> <br>

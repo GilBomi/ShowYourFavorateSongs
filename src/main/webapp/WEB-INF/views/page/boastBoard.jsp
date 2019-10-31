@@ -31,12 +31,14 @@
 		<section>
 			<div id="content">
 				<%@ include file="/WEB-INF/include/communityList.jsp"%>
-				
-			<div style="text-align: center; padding-top: 100px; padding-bottom: 20px;">
+
+				<div
+					style="text-align: center; padding-top: 100px; padding-bottom: 20px;">
 					<h1 style="font-size: 23pt">전국 노래 자랑</h1>
 				</div>
 
-				<hr style="margin-bottom: -2px;border: 0;height: 1px; background: #E6E6E6; clear: both;">
+				<hr
+					style="margin-bottom: -2px; border: 0; height: 1px; background: #E6E6E6; clear: both;">
 
 				<!--게시글 목록 테이블-->
 				<div class="container">
@@ -52,59 +54,53 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>1</td>
-								<td class="title-td">
-									<a href="02.html" style="text-decoration: none;">제가 노래부르는 모습입니다.</a>
-								</td>
-								<td>나도가수다</td>
-								<td>19.09.15</td>
-								<td>17</td>
-								<td>0</td>
-							</tr>
-
-							<!--게시글
+							<c:forEach var="post" items="${boastPosts}" varStatus="status">
 								<tr>
-								<td>글번호</td>
-								<td class="title-td">
-									<a href="#" style="text-decoration: none;">제목</a>
-								</td>
-								<td>작성자</td>
-								<td>작성일</td>
-								<td>조회수</td>
-								<td>추천수</td>
-							</tr>
-							-->
+									<c:set var="num"
+										value="${fn:length(boastPosts)-status.index}" />
+									<td><c:out value="${num}" /></td>
+									<td><a href="post/${post.post_id}"
+										style="text-decoration: none; font-weight: bold; color: grey">${post.title}
+									</a></td>
+									<c:set var="theString" value="${post.user.nickname}" />
+									<td><c:if test="${fn:contains(theString,'관리자')}">${post.user.nickname}</c:if>
+										<c:if test="${fn:indexOf(theString,'관리자')==-1}">
+											<a href="user?user_idx=${post.user.user_idx}"
+												style="text-decoration: none; font-weight: bold; color: grey">${post.user.nickname}</a>
+										</c:if></td>
+									<td>${post.date}</td>
+									<td>${post.view}</td>
+									<td>0</td>
+								</tr>
+							</c:forEach>
+
 						</tbody>
 					</table>
 
 					<div class="text-center" style="margin-top: 100px;">
 						<!--페이지네이션-->
 						<ul class="pagination">
-							<li class="page-item disabled">
-								<a class="page-link" href="#">&laquo;</a>
+							<li class="page-item disabled"><a class="page-link" href="#">&laquo;</a>
 							</li>
-							<li class="page-item active">
-								<a class="page-link" href="#">1</a>
+							<li class="page-item active"><a class="page-link" href="#">1</a>
 							</li>
-							<li class="page-item disabled">
-								<a class="page-link" href="#">&raquo;</a>
+							<li class="page-item disabled"><a class="page-link" href="#">&raquo;</a>
 							</li>
 						</ul>
 
 						<!--글작성-->
-						<button type="button" class="btn btn-primary btn3" style="float: right; margin-right: 10px;" onclick ="location.href='postWrite'">글작성</button>
+						<button type="button" class="btn btn-primary btn3"
+							style="float: right; margin-right: 10px;"
+							onclick="location.href='postWrite/2'">글작성</button>
 					</div>
 
-					<br>
-					<br>
-					
-					
-				<%@ include file="/WEB-INF/include/searching.jsp"%>
+					<br> <br>
+
+
+					<%@ include file="/WEB-INF/include/searching.jsp"%>
 					<br> <br> <br> <br>
 				</div>
-
-			</section>
+		</section>
 		<!--푸터-->
 		<%@ include file="/WEB-INF/include/footer.jsp"%>
 

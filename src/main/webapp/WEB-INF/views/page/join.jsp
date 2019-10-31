@@ -66,6 +66,12 @@
 								}		
 								function nicknameCheck() {
 									var nickname = $('#nickname').val();
+									if(nickname.includes('관리자')) {
+											alert('"관리자"라는 단어가 들어간 닉네임은 사용이 불가능합니다.');
+											n="false";
+											return;
+
+										}
 									<c:forEach var="user" items="${users}">
 										if('${user.nickname}'==nickname) {
 											alert('닉네임 중복입니다. 다시 입력하세요.');

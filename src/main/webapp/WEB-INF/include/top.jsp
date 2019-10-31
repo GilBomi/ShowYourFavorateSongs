@@ -29,7 +29,7 @@
 		<div class="container-fluid">
 
 			<!--메인 링크-->
-			<a class="navbar-brand" data-url="home" style="cursor: pointer">너의
+			<a class="navbar-brand" data-url="/page/home" style="cursor: pointer">너의
 				18번을 들려줘&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| </a>
 
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -41,41 +41,41 @@
 			<div class="collapse navbar-collapse" id="navbarColor01">
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item">
-						<!--메인 링크--> <a class="nav-link" data-url="home"
+						<!--메인 링크--> <a class="nav-link" data-url="/page/home"
 						style="cursor: pointer">홈<span class="sr-only">(current)</span></a>
 					</li>
 					<li class="nav-item">
-						<!--공지 링크--> <a class="nav-link" data-url="notice"
+						<!--공지 링크--> <a class="nav-link" data-url="/page/notice"
 						style="cursor: pointer">공지사항</a>
 					</li>
 					<li class="nav-item">
 						<!--차트 링크--> <a class="nav-link" style="cursor: pointer"
-						data-url="chartBoard">인기차트</a>
+						data-url="/page/chartBoard">인기차트</a>
 					</li>
 					<li class="nav-item dropdown">
 						<!--커뮤니티 링크--> <a class="nav-link dropdown-toggle"
-						data-toggle="dropdown" data-url="bestBoard"
+						data-toggle="dropdown" data-url="/page/bestBoard"
 						style="cursor: pointer" role="button" aria-haspopup="true"
 						aria-expanded="false">커뮤니티</a>
 						<ul class="dropdown-menu" role="menu">
-							<li><a style="cursor: pointer" data-url="bestBoard">베스트
+							<li><a style="cursor: pointer" data-url="/page/bestBoard">베스트
 									게시판</a></li>
-							<li><a style="cursor: pointer" data-url="freeBoard">자유
+							<li><a style="cursor: pointer" data-url="/page/freeBoard?pg=1">자유
 									게시판</a></li>
-							<li><a style="cursor: pointer" data-url="tipBoard">팁 게시판</a></li>
-							<li><a style="cursor: pointer" data-url="recommendBoard">노래
+							<li><a style="cursor: pointer" data-url="/page/tipBoard">팁 게시판</a></li>
+							<li><a style="cursor: pointer" data-url="/page/recommendBoard">노래
 									추천</a></li>
-							<li><a style="cursor: pointer" data-url="boastBoard">전국
+							<li><a style="cursor: pointer" data-url="/page/boastBoard">전국
 									노래 자랑</a></li>
 						</ul>
 					</li>
 					<li class="nav-item dropdown">
 						<!--정보 링크--> <a class="nav-link dropdown-toggle"
-						data-toggle="dropdown" data-url="map" style="cursor: pointer"
+						data-toggle="dropdown" data-url="/page/map" style="cursor: pointer"
 						role="button" aria-haspopup="true" aria-expanded="false">정보</a>
 						<ul class="dropdown-menu" role="menu">
-							<li><a data-url="map" style="cursor: pointer">노래방 맵</a></li>
-							<li><a style="cursor: pointer" data-url="relative">관련
+							<li><a data-url="/page/map" style="cursor: pointer">노래방 맵</a></li>
+							<li><a style="cursor: pointer" data-url="/page/relative">관련
 									사이트</a></li>
 						</ul>
 					</li>
@@ -93,22 +93,23 @@
 						<c:choose>
 							<c:when test="${user.manager eq 'true' }">
 								<ul class="nav navbar-nav navbar-right">
+									<li class="nav-item">관리자</li>
 									<li class="nav-item"><a class="nav-link login"
-										data-url="login"
-										style="color: white; cursor: pointer; border: 1px solid #585858; padding: 10px 15px 10px 15px;">1로그아웃</a>
+										data-url="/page/logout"
+										style="color: white; cursor: pointer; border: 1px solid #585858; padding: 10px 15px 10px 15px;">로그아웃</a>
 									</li>
 								</ul>
 							</c:when>
 							<c:otherwise>
 								<ul class="nav navbar-nav">
 									<li class="nav-item"><a class="nav-link logout"
-										data-url="user"
+										data-url="/page/user"
 										style="color: white; cursor: pointer; border: 1px solid #585858; padding: 10px 15px 10px 15px;">마이페이지</a>
 									</li>
 								</ul>
 								<ul class="nav navbar-nav">
 									<li class="nav-item"><a class="nav-link login"
-										data-url="logout"
+										data-url="/page/logout"
 										style="color: white; cursor: pointer; border: 1px solid #585858;">로그아웃</a>
 									</li>
 								</ul>

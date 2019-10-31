@@ -32,51 +32,61 @@
 		<section>
 			<!--본문 작성-->
 			<div id="content">
-				<div style="text-align: center; padding-top: 200px; padding-bottom: 20px;">
-					<h1 style="font-size: 20pt">zi존보컬님의 개인페이지</h1>
+				<div
+					style="text-align: center; padding-top: 200px; padding-bottom: 20px;">
+					<h1 style="font-size: 20pt">${u.nickname}님의 개인페이지</h1>
 				</div>
 
-				<hr style="margin-bottom: -2px; border: 0;height: 1px; background: #E6E6E6; clear: both;">
+				<hr
+					style="margin-bottom: -2px; border: 0; height: 1px; background: #E6E6E6; clear: both;">
 
-				<div class="container" style="margin-bottom: 100px; margin-top: 50px;">
+				<div class="container"
+					style="margin-bottom: 100px; margin-top: 50px;">
 					<div class="jumbotron">
-						<span style="float: left; margin-right: 10px; padding-top: 5px;"><h3>zi존보컬</h3></span>
+						<span style="float: left; margin-right: 10px; padding-top: 5px;"><h3>${u.nickname}</h3></span>
 
-						<button type="button" class="btn btn-primary btn5" style="margin-right: 40px;border: 1px solid #BDBDBD;background: #fff;color: #BDBDBD;" onclick="location.href='changeProfile.html'">정보 수정</button>
+						<button type="button" class="btn btn-primary btn5"
+							style="margin-right: 40px; border: 1px solid #BDBDBD; background: #fff; color: #BDBDBD;"
+							onclick="location.href='changeProfile.html'">정보 수정</button>
 
 						<button type="button" class="btn btn-primary btn4" data-follow>팔로우</button>
 
-						<div class="btn btn-primary btn4" style="border: 1px solid #BDBDBD;background: #fff;color: #BDBDBD;">0</div>
+						<div class="btn btn-primary btn4"
+							style="border: 1px solid #BDBDBD; background: #fff; color: #BDBDBD;">0</div>
 
 						<!--유저 삭제-->
-						<button type="button" class="btn btn-primary btn3" data-user-ban style="float: right; border: 1px solid #FA5858; background:#FA5858;">유저 삭제</button>
-
+						<c:choose>
+							<c:when test="${user.manager eq 'true' }">
+								<button type="button" class="btn btn-primary btn3" 
+									style="float: right; border: 1px solid #FA5858; background: #FA5858;" onclick="location.href='userDelete?user_idx=${u.user_idx}'">유저
+									삭제</button>
+							</c:when>
+						</c:choose>
 						<div style="margin-top: 30px; color: #2E2E2E;">
-							<span style="font-weight: bold;">
-								<a href="#modalLayer" class="modalLink" style="text-decoration: none; margin-right: 20px;">팔로우 2</a>
+							<span style="font-weight: bold;"> <a href="#modalLayer"
+								class="modalLink"
+								style="text-decoration: none; margin-right: 20px;">팔로우 2</a>
+							</span> <span style="font-weight: bold; margin-right: 20px;"> <a
+								href="userPost.html" style="text-decoration: none;">포스트 0</a>
+							</span> <span style="font-weight: bold; margin-right: 20px;"> <a
+								href="userReply.html" style="text-decoration: none;">댓글 2</a>
+							</span> <span style="font-weight: bold; margin-right: 20px;"> <a
+								href="userLike.html" style="text-decoration: none;">좋아요 1</a>
 							</span>
-							<span style="font-weight: bold; margin-right: 20px;">
-								<a href="userPost.html" style="text-decoration: none;">포스트 0</a>
-							</span>
-							<span style="font-weight: bold; margin-right: 20px;">
-								<a href="userReply.html" style="text-decoration: none;">댓글 2</a>
-							</span>
-							<span style="font-weight: bold; margin-right: 20px;">
-								<a href="userLike.html" style="text-decoration: none;">좋아요 1</a>
-							</span>
-							
+
 						</div>
 						<hr class="my-4">
 						<div style="margin-top: 30px; color: #2E2E2E;">
-							<p>안녕하세요 대한민국 보컬의 마지막 자존심 지존보컬입니다</p>
+							<p>${u.message}</p>
 						</div>
 					</div>
 				</div>
 
 				<div style="padding-bottom: 10px; text-align: center;">
-					<h1 style="font-size: 15pt">Zi존보컬님의 애창곡 목록</h1>
+					<h1 style="font-size: 15pt">${u.nickname}님의애창곡 목록</h1>
 				</div>
-				<hr style="margin-bottom: 20px; border: 0;height: 1px; background: #E6E6E6; clear: both;">
+				<hr
+					style="margin-bottom: 20px; border: 0; height: 1px; background: #E6E6E6; clear: both;">
 
 				<div class="container" style="margin-bottom: 200px;">
 					<div class="jumbotron" style="margin-top: 10px;">
@@ -97,21 +107,21 @@
 							</thead>
 
 							<tbody>
-								<tr data-delete-list style="cursor:pointer">
+								<tr data-delete-list style="cursor: pointer">
 									<td>8797</td>
 									<td>6286</td>
 									<td>Tears</td>
 									<td>소찬휘</td>
 								</tr>
 
-								<tr data-delete-list style="cursor:pointer">
+								<tr data-delete-list style="cursor: pointer">
 									<td>46732</td>
 									<td>88725</td>
 									<td>Lazenca, Save Us(우리동네음악대장)</td>
 									<td>하현우</td>
 								</tr>
 
-								<tr data-delete-list style="cursor:pointer">
+								<tr data-delete-list style="cursor: pointer">
 									<td>96806</td>
 									<td>49720</td>
 									<td>My Way</td>
@@ -130,13 +140,14 @@
 						팔로우 목록
 						<table>
 							<tr id="tr">
-								<td><a href="user2.html"  style="cursor:pointer" >노래방죽순이</a></td>
+								<td><a href="user2.html" style="cursor: pointer">노래방죽순이</a></td>
 							</tr>
 							<tr>
-								<td><a href="#"  style="cursor:pointer" >BTS</a></td>
+								<td><a href="#" style="cursor: pointer">BTS</a></td>
 							</tr>
 						</table>
-						<button type="button" class="btn btn-primary btn3" style="float: right; border: 1px solid #FA5858; background:#FA5858;">닫기</button>
+						<button type="button" class="btn btn-primary btn3"
+							style="float: right; border: 1px solid #FA5858; background: #FA5858;">닫기</button>
 
 					</div>
 				</div>
