@@ -199,13 +199,14 @@ public class APIController {
 	}
 
 	@RequestMapping(value = "notice", method = RequestMethod.GET)
-	public String notice(Model model) {
+	public String notice(Model model,@RequestParam("pg") int pg) {
 		Board board= boardRepository.findById(5).get();
 		List<Post> notices_ex=board.getPosts();//게시판
 		List<Post> notices=new ArrayList<>();
 		for(int i=notices_ex.size()-1;i>=0;i--) { // date기준으로 역순으로 정렬하려고
 			notices.add(notices_ex.get(i));
 		}
+		model.addAttribute("pg", pg);
 		model.addAttribute("notices", notices);
 		return "page/notice";
 	}
@@ -225,7 +226,7 @@ public class APIController {
 		Board board= boardRepository.findById(1).get();
 		List<Post> freePosts_ex=board.getPosts();//게시판
 		List<Post> freePosts=new ArrayList<>();
-		for(int i=freePosts_ex.size()-1;i>=0;i--) { // date기준으로 역순으로 정렬하려고
+		for(int i=freePosts_ex.size()-1;i>=0;i--) { // date기준으로
 			freePosts.add(freePosts_ex.get(i));
 		}
 		model.addAttribute("pg",pg);
@@ -236,13 +237,14 @@ public class APIController {
 
 	//팁게시판 조회
 	@RequestMapping(value="tipBoard", method=RequestMethod.GET)
-	public String tipBoard(Model model) {
+	public String tipBoard(Model model,@RequestParam("pg") int pg) {
 		Board board= boardRepository.findById(4).get();
 		List<Post> tipPosts_ex=board.getPosts();
 		List<Post> tipPosts=new ArrayList<>();
 		for(int i=tipPosts_ex.size()-1;i>=0;i--) { // date기준으로 역순으로 정렬하려고
 			tipPosts.add(tipPosts_ex.get(i));
 		}
+		model.addAttribute("pg",pg);
 		model.addAttribute("tipPosts", tipPosts);
 
 		return "page/tipBoard";
@@ -250,14 +252,14 @@ public class APIController {
 
 	//추천게시판
 	@RequestMapping(value="recommendBoard", method=RequestMethod.GET)
-	public String recommendBoard(Model model) {
+	public String recommendBoard(Model model,@RequestParam("pg") int pg) {
 		Board board= boardRepository.findById(3).get();
 		List<Post> recomPosts_ex=board.getPosts();
 		List<Post> recomPosts=new ArrayList<>();
 		for(int i=recomPosts_ex.size()-1;i>=0;i--) { // date기준으로 역순으로 정렬하려고
 			recomPosts.add(recomPosts_ex.get(i));
 		}
-
+		model.addAttribute("pg",pg);
 		model.addAttribute("recomPosts", recomPosts);
 
 		return "page/recommendBoard";
@@ -265,13 +267,14 @@ public class APIController {
 
 	//자랑게시판
 	@RequestMapping(value="boastBoard", method=RequestMethod.GET)
-	public String boastBoard(Model model) {
+	public String boastBoard(Model model,@RequestParam("pg") int pg) {
 		Board board= boardRepository.findById(2).get();
 		List<Post> boastPosts_ex=board.getPosts();
 		List<Post> boastPosts=new ArrayList<>();
 		for(int i=boastPosts_ex.size()-1;i>=0;i--) { // date기준으로 역순으로 정렬하려고
 			boastPosts.add(boastPosts_ex.get(i));
 		}
+		model.addAttribute("pg",pg);
 		model.addAttribute("boastPosts", boastPosts);
 
 		return "page/boastBoard";
@@ -282,6 +285,9 @@ public class APIController {
 		Post post= postRepository.findById(id).get();
 		List<File2> files=post.getFiles();//파일
 		postRepository.updateView(id);
+		int board_id=post.getBoard().getBoard_id();
+		System.out.println("board_id~: "+board_id);
+		model.addAttribute("selectBoard",board_id);
 		model.addAttribute("post", post);
 		model.addAttribute("files", files);
 
@@ -343,14 +349,14 @@ public class APIController {
 		Board board=post.getBoard();
 		postRepository.deleteById(post_id);
 		if(board.getBoard_id()==1)
-			return "redirect:freeBoard";
+			return "redirect:freeBoard?pg=1";
 		else if(board.getBoard_id()==2)
-			return "redirect:boastBoard";
+			return "redirect:boastBoard?pg=1";
 		else if(board.getBoard_id()==3)
-			return "redirect:recommendBoard";
+			return "redirect:recommendBoard?pg=1";
 		else if(board.getBoard_id()==4)
-			return "redirect:tipBoard";
-		return "redirect:noticeBoard";
+			return "redirect:tipBoard?pg=1";
+		return "redirect:notice?pg=1";
 
 	}
 
@@ -359,9 +365,12 @@ public class APIController {
 	public String postModify(Model model,@RequestParam("post_id") int post_id) {
 		Optional<Post> optinalEntity2 = postRepository.findById(post_id);
 		Post post = optinalEntity2.get();
+		int board_id=post.getBoard().getBoard_id();
 		model.addAttribute("post", post);
 		List<File2> file=fileRepository.findAllByPost(post);
 		model.addAttribute("files", file);
+		model.addAttribute("selectBoard", board_id);
+		model.addAttribute("postModify", "yes");
 		// System.out.println("파일 id: "+file.get(0).getFile_id());
 		return "page/postWrite";
 
@@ -454,8 +463,6 @@ public class APIController {
 	@RequestMapping(value = "postWrite/{board_id}", method = RequestMethod.GET)
 	public String postWrite(@PathVariable("board_id") int board_id,Model model,final HttpSession session,HttpServletRequest request, HttpServletResponse response) {
 		User user = (User) session.getAttribute("user");
-	    if(user==null)
-	    	return "page/login";
 		Post post = new Post();
 		File2 file = new File2();
 

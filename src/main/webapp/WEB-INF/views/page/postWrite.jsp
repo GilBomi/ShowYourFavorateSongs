@@ -33,8 +33,13 @@
 		</header>
 		<section>
 			<div id="content">
-				<%@ include file="/WEB-INF/include/communityList.jsp"%>
-
+				<c:if test="${selectBoard ne 5}">
+					<%@ include file="/WEB-INF/include/communityList.jsp"%>
+				</c:if>
+				<c:if test="${selectBoard eq 5}">
+					<br>
+					<br>
+				</c:if>
 				<!--글 본문-->
 				<div class="container">
 					<div class="jumbotron" style="margin-top: 40px;">
@@ -42,24 +47,61 @@
 						<form:form method="post" modelAttribute="post"
 							enctype="multipart/form-data">
 							<c:choose>
-								<c:when test="${user.manager eq 'false' }">
+								<c:when
+									test="${(user.manager eq 'false') &&(postModify ne 'yes') }">
 									<!--셀렉트태그-->
 									<select name="board_id" id="board_id" class="post_title_input" />
-									<option value="1" <c:if test="${selectBoard == 1}">selected</c:if>>자유 게시판</option>
-									<option value="2" <c:if test="${selectBoard == 2}">selected</c:if>>전국 노래 자랑</option>
-									<option value="3" <c:if test="${selectBoard == 3}">selected</c:if>>노래 추천</option>
-									<option value="4" <c:if test="${selectBoard == 4}">selected</c:if>>팁 게시판</option>
+									<option value="1"
+										<c:if test="${selectBoard == 1}">selected</c:if>>자유
+										게시판</option>
+									<option value="2"
+										<c:if test="${selectBoard == 2}">selected</c:if>>전국
+										노래 자랑</option>
+									<option value="3"
+										<c:if test="${selectBoard == 3}">selected</c:if>>노래
+										추천</option>
+									<option value="4"
+										<c:if test="${selectBoard == 4}">selected</c:if>>팁
+										게시판</option>
 									</select>
 									<br>
+								</c:when>
+								<c:when
+									test="${(user.manager eq 'false') &&(postModify eq 'yes') }">
+									<c:if test="${selectBoard == 1}"><p style = "font-size:1.7em;">자유
+										게시판</p></c:if>
+									<c:if test="${selectBoard == 2}"><p style = "font-size:1.7em;">전국 노래 자랑</p></c:if>
+										<c:if test="${selectBoard == 3}"><p style = "font-size:1.7em;">노래 추천</p></c:if>
+									<c:if test="${selectBoard == 4}"><p style = "font-size:1.7em;">팁 게시판</p></c:if>
+									<br>
+								</c:when>
+								<c:when
+									test="${(user.manager eq 'true') &&(postModify eq 'yes') }">
+									<c:if test="${selectBoard == 1}"><p style = "font-size:1.7em;">자유
+										게시판</p></c:if>
+									<c:if test="${selectBoard == 2}"><p style = "font-size:1.7em;">전국 노래 자랑</p></c:if>
+										<c:if test="${selectBoard == 3}"><p style = "font-size:1.7em;">노래 추천</p></c:if>
+									<c:if test="${selectBoard == 4}"><p style = "font-size:1.7em;">팁 게시판</p></c:if>
+									<c:if test="${selectBoard == 5}"><p style = "font-size:1.7em;">공지사항</p></c:if>
+									
 								</c:when>
 								<c:otherwise>
 									<!--셀렉트태그-->
 									<select name="board_id" id="board_id" class="post_title_input" />
-									<option value="1" <c:if test="${selectBoard == 1}">selected</c:if>>자유 게시판</option>
-									<option value="2" <c:if test="${selectBoard == 2}">selected</c:if>>전국 노래 자랑</option>
-									<option value="3" <c:if test="${selectBoard == 3}">selected</c:if>>노래 추천</option>
-									<option value="4" <c:if test="${selectBoard == 4}">selected</c:if>>팁 게시판</option>
-									<option value="5" <c:if test="${selectBoard == 5}">selected</c:if>>공지사항</option>
+									<option value="1"
+										<c:if test="${selectBoard == 1}">selected</c:if>>자유
+										게시판</option>
+									<option value="2"
+										<c:if test="${selectBoard == 2}">selected</c:if>>전국
+										노래 자랑</option>
+									<option value="3"
+										<c:if test="${selectBoard == 3}">selected</c:if>>노래
+										추천</option>
+									<option value="4"
+										<c:if test="${selectBoard == 4}">selected</c:if>>팁
+										게시판</option>
+									<option value="5"
+										<c:if test="${selectBoard == 5}">selected</c:if>>공지사항</option>
 									</select>
 									<br>
 								</c:otherwise>

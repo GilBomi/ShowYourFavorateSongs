@@ -104,29 +104,56 @@
 							<fmt:parseNumber var="paginationPrevious"
 								value="${3*(paginationNum-1)}" integerOnly="true" />
 
-							<c:if test="${pg eq 1}">
+							<c:if test="${paginationNum eq 1}">
 								<li class="page-item disabled"><a class="page-link"
 									href="#">Previous</a></li>
 							</c:if>
-							<c:if test="${pg ne 1}">
+							<c:if test="${paginationNum ne 1}">
 								<li class="page-item"><a class="page-link"
 									href="/page/freeBoard?pg=${paginationPrevious}">Previous</a></li>
 							</c:if>
 							<c:forEach var="i" begin="1" end="${totalPg}" step="3">
 								<c:if test="${i>(paginationNum-1)*3 && (i+2)<=paginationNum*3}">
-									<li class="page-item <c:if test="${pg eq i}">active</c:if>"><a class="page-link" href="/page/freeBoard?pg=${i}">${i}</a></li>
-									<li class="page-item <c:if test="${pg eq (i+1)}">active</c:if>"><a class="page-link" href="/page/freeBoard?pg=${i+1}">${i+1}</a></li>
-									<li class="page-item <c:if test="${pg eq (i+2)}">active</c:if>"><a class="page-link" href="/page/freeBoard?pg=${i+2}">${i+2}</a></li>
+									<li class="page-item <c:if test="${pg eq i}">active</c:if>"><a
+										class="page-link" href="/page/freeBoard?pg=${i}">${i}</a></li>
+									<c:if test="${(i+1)<=totalPg}">
+										<li
+											class="page-item <c:if test="${pg eq (i+1)}">active</c:if>"><a
+											class="page-link" href="/page/freeBoard?pg=${i+1}">${i+1}</a></li>
+									</c:if>
+									<c:if test="${(i+2)<=totalPg}">
+										<li
+											class="page-item <c:if test="${pg eq (i+2)}">active</c:if>"><a
+											class="page-link" href="/page/freeBoard?pg=${i+2}">${i+2}</a></li>
+									</c:if>
 								</c:if>
-							</c:forEach>
-							<li class="page-item" style="border: 1px solid white"><a
-								class="page-link" href="/page/freeBoard?pg=${paginationNext}">Next</a></li>
-						</ul>
 
-						<!--글작성-->
-						<button type="button" class="btn btn-primary btn3"
-							style="float: right; margin-right: 10px;"
-							onclick="location.href='postWrite/1'">글작성</button>
+							</c:forEach>
+							<c:if
+								test="${(paginationNum eq paginationTotal) || (paginationTotal eq 0)}">
+								<li class="page-item disabled"><a class="page-link"
+									href="#">Next</a></li>
+							</c:if>
+							<c:if
+								test="${(paginationNum ne paginationTotal)&& (paginationTotal ne 0)}">
+								<li class="page-item"><a class="page-link"
+									href="/page/freeBoard?pg=${paginationNext}">Next</a></li>
+							</c:if>
+						</ul>
+						<c:choose>
+							<c:when test="${empty user }">
+								<!--글작성-->
+								<button type="button" class="btn btn-primary btn3"
+									style="float: right; margin-right: 10px;"
+									onclick="location.href='/page/login'">글작성</button>
+							</c:when>
+							<c:otherwise>
+							<!--글작성-->
+								<button type="button" class="btn btn-primary btn3"
+									style="float: right; margin-right: 10px;"
+									onclick="location.href='postWrite/1'">글작성</button>
+							</c:otherwise>
+						</c:choose>
 					</div>
 
 					<br> <br>

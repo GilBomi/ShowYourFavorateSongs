@@ -33,11 +33,11 @@
 					style="cursor: pointer" data-url="/page/bestBoard">베스트</a></li>
 				<li class="nav-item"><a class="nav-link" style="cursor: pointer" data-url="/page/freeBoard?pg=1">자유
 						게시판</a></li>
-				<li class="nav-item"><a class="nav-link" style="cursor: pointer" data-url="/page/tipBoard">팁
+				<li class="nav-item"><a class="nav-link" style="cursor: pointer" data-url="/page/tipBoard?pg=1">팁
 						게시판</a></li>
-				<li class="nav-item"><a class="nav-link" style="cursor: pointer" data-url="/page/recommendBoard">노래
+				<li class="nav-item"><a class="nav-link" style="cursor: pointer" data-url="/page/recommendBoard?pg=1">노래
 						추천</a></li>
-				<li class="nav-item"><a class="nav-link" style="cursor: pointer" data-url="/page/boastBoard">전국
+				<li class="nav-item"><a class="nav-link" style="cursor: pointer" data-url="/page/boastBoard?pg=1">전국
 						노래 자랑</a></li>
 			</ul>
 		</div>

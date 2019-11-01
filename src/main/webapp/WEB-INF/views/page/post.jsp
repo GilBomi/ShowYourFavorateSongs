@@ -32,12 +32,19 @@
 		</header>
 		<section>
 			<div id="content">
-				<%@ include file="/WEB-INF/include/communityList.jsp"%>
-
+				<c:if test="${selectBoard ne 5}">
+					<%@ include file="/WEB-INF/include/communityList.jsp"%>
+				</c:if>
 				<div class="container">
 
 					<div class="jumbotron" style="margin-top: 10px;">
-						<h4 style="padding-left: 5px;">${post.board.board_name}</h4>
+						<c:if test="${selectBoard ne 5}">
+							<h4 style="padding-left: 5px;">${post.board.board_name}</h4>
+						</c:if>
+						<c:if test="${selectBoard eq 5}">
+							<br><br><br><br>
+							<h4 style="padding-left: 5px;">공지사항</h4>
+						</c:if>
 						<br>
 						<h1 class="display-5">${post.title}</h1>
 						<br>

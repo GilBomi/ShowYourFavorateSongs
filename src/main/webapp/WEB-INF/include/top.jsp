@@ -45,7 +45,7 @@
 						style="cursor: pointer">홈<span class="sr-only">(current)</span></a>
 					</li>
 					<li class="nav-item">
-						<!--공지 링크--> <a class="nav-link" data-url="/page/notice"
+						<!--공지 링크--> <a class="nav-link" data-url="/page/notice?pg=1"
 						style="cursor: pointer">공지사항</a>
 					</li>
 					<li class="nav-item">
@@ -62,10 +62,10 @@
 									게시판</a></li>
 							<li><a style="cursor: pointer" data-url="/page/freeBoard?pg=1">자유
 									게시판</a></li>
-							<li><a style="cursor: pointer" data-url="/page/tipBoard">팁 게시판</a></li>
-							<li><a style="cursor: pointer" data-url="/page/recommendBoard">노래
+							<li><a style="cursor: pointer" data-url="/page/tipBoard?pg=1">팁 게시판</a></li>
+							<li><a style="cursor: pointer" data-url="/page/recommendBoard?pg=1">노래
 									추천</a></li>
-							<li><a style="cursor: pointer" data-url="/page/boastBoard">전국
+							<li><a style="cursor: pointer" data-url="/page/boastBoard?pg=1">전국
 									노래 자랑</a></li>
 						</ul>
 					</li>
@@ -84,7 +84,7 @@
 					<c:when test="${empty user }">
 						<ul class="nav navbar-nav navbar-right">
 							<li class="nav-item"><a class="nav-link login"
-								data-url="login"
+								data-url="/page/login"
 								style="color: white; cursor: pointer; border: 1px solid #585858; padding: 10px 15px 10px 15px;">로그인</a>
 							</li>
 						</ul>
@@ -103,7 +103,7 @@
 							<c:otherwise>
 								<ul class="nav navbar-nav">
 									<li class="nav-item"><a class="nav-link logout"
-										data-url="/page/user"
+										data-url="/page/user?user_idx=${ user.user_idx}"
 										style="color: white; cursor: pointer; border: 1px solid #585858; padding: 10px 15px 10px 15px;">마이페이지</a>
 									</li>
 								</ul>
