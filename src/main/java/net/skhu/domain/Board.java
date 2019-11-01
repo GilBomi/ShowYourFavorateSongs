@@ -23,12 +23,13 @@ public class Board {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int board_id;
-	
+
     String board_name;
 
     @JsonIgnore
     @OneToMany(mappedBy="board")
     List<Post> posts;
+
 
 }
 

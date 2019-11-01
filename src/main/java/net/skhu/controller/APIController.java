@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,29 +36,17 @@ import net.skhu.TempAuth_key;
 import net.skhu.domain.Board;
 import net.skhu.domain.File2;
 import net.skhu.domain.Post;
+import net.skhu.domain.Post_like;
 import net.skhu.domain.User;
 import net.skhu.repository.BoardRepository;
 import net.skhu.repository.File2Repository;
 import net.skhu.repository.PostRepository;
+import net.skhu.repository.Post_likeRepository;
 import net.skhu.repository.UserRepository;
 
 @Controller
 @RequestMapping("/page")
 public class APIController {
-	//   @Bean
-	//   public CommonsMultipartResolver multipartResolver() {
-	//      CommonsMultipartResolver multipart = new CommonsMultipartResolver();
-	//      multipart.setMaxUploadSize(3 * 1024 * 1024);
-	//      return multipart;
-	//   }
-	//
-	//   @Bean
-	//   public MultipartFilter multipartFilter() {
-	//      MultipartFilter multipartFilter = new MultipartFilter();
-	//      multipartFilter.setMultipartResolverBeanName("multipartReso  lver");
-	//      return multipartFilter;
-	//   }
-
 	@Autowired
 	UserRepository userRepository;
 	@Autowired
@@ -66,6 +55,8 @@ public class APIController {
 	File2Repository fileRepository;
 	@Autowired
 	PostRepository postRepository;
+	@Autowired
+	Post_likeRepository post_likeRepository;
 
 	@RequestMapping(value = "join", method = RequestMethod.GET)
 	public String join(Model model) {
@@ -202,11 +193,17 @@ public class APIController {
 	public String notice(Model model,@RequestParam("pg") int pg) {
 		Board board= boardRepository.findById(5).get();
 		List<Post> notices_ex=board.getPosts();//게시판
-//		List<Post> notices=new ArrayList<>();
-//		for(int i=notices_ex.size()-1;i>=0;i--) { // date기준으로 역순으로 정렬하려고
-//			notices.add(notices_ex.get(i));
-//		}
+		//		List<Post> notices=new ArrayList<>();
+		//		for(int i=notices_ex.size()-1;i>=0;i--) { // date기준으로 역순으로 정렬하려고
+		//			notices.add(notices_ex.get(i));
+		//		}
 		Collections.sort(notices_ex);
+		HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+		for(int i=0;i<notices_ex.size();i++) {
+			map.put(notices_ex.get(i).getPost_id(),post_likeRepository.findPost_like_num(notices_ex.get(i).getPost_id()));
+			// System.out.println("post_id: "+freePosts_ex.get(i).getPost_id()+" count: "+post_likeRepository.findPost_like_num(freePosts_ex.get(i).getPost_id()));
+		}
+		model.addAttribute("map_like",map);
 		model.addAttribute("pg", pg);
 		model.addAttribute("notices", notices_ex);
 		return "page/notice";
@@ -226,11 +223,19 @@ public class APIController {
 	public String freeBoard(Model model,@RequestParam("pg") int pg) {
 		Board board= boardRepository.findById(1).get();
 		List<Post> freePosts_ex=board.getPosts();//게시판
-//		List<Post> freePosts=new ArrayList<>();
-//		for(int i=freePosts_ex.size()-1;i>=0;i--) { // date기준으로
-//			freePosts.add(freePosts_ex.get(i));
-//		}
+		//		List<Post> freePosts=new ArrayList<>();
+		//		for(int i=freePosts_ex.size()-1;i>=0;i--) { // date기준으로
+		//			freePosts.add(freePosts_ex.get(i));
+		//		}
 		Collections.sort(freePosts_ex);
+		// System.out.println("--------------");
+		HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+		for(int i=0;i<freePosts_ex.size();i++) {
+			map.put(freePosts_ex.get(i).getPost_id(),post_likeRepository.findPost_like_num(freePosts_ex.get(i).getPost_id()));
+			// System.out.println("post_id: "+freePosts_ex.get(i).getPost_id()+" count: "+post_likeRepository.findPost_like_num(freePosts_ex.get(i).getPost_id()));
+		}
+		model.addAttribute("map_like",map);
+
 		model.addAttribute("pg",pg);
 		model.addAttribute("freePosts", freePosts_ex);
 
@@ -242,11 +247,17 @@ public class APIController {
 	public String tipBoard(Model model,@RequestParam("pg") int pg) {
 		Board board= boardRepository.findById(4).get();
 		List<Post> tipPosts_ex=board.getPosts();
-//		List<Post> tipPosts=new ArrayList<>();
-//		for(int i=tipPosts_ex.size()-1;i>=0;i--) { // date기준으로 역순으로 정렬하려고
-//			tipPosts.add(tipPosts_ex.get(i));
-//		}
+		//		List<Post> tipPosts=new ArrayList<>();
+		//		for(int i=tipPosts_ex.size()-1;i>=0;i--) { // date기준으로 역순으로 정렬하려고
+		//			tipPosts.add(tipPosts_ex.get(i));
+		//		}
 		Collections.sort(tipPosts_ex);
+		HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+		for(int i=0;i<tipPosts_ex.size();i++) {
+			map.put(tipPosts_ex.get(i).getPost_id(),post_likeRepository.findPost_like_num(tipPosts_ex.get(i).getPost_id()));
+			// System.out.println("post_id: "+freePosts_ex.get(i).getPost_id()+" count: "+post_likeRepository.findPost_like_num(freePosts_ex.get(i).getPost_id()));
+		}
+		model.addAttribute("map_like",map);
 		model.addAttribute("pg",pg);
 		model.addAttribute("tipPosts", tipPosts_ex);
 
@@ -258,11 +269,17 @@ public class APIController {
 	public String recommendBoard(Model model,@RequestParam("pg") int pg) {
 		Board board= boardRepository.findById(3).get();
 		List<Post> recomPosts_ex=board.getPosts();
-//		List<Post> recomPosts=new ArrayList<>();
-//		for(int i=recomPosts_ex.size()-1;i>=0;i--) { // date기준으로 역순으로 정렬하려고
-//			recomPosts.add(recomPosts_ex.get(i));
-//		}
+		//		List<Post> recomPosts=new ArrayList<>();
+		//		for(int i=recomPosts_ex.size()-1;i>=0;i--) { // date기준으로 역순으로 정렬하려고
+		//			recomPosts.add(recomPosts_ex.get(i));
+		//		}
 		Collections.sort(recomPosts_ex);
+		HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+		for(int i=0;i<recomPosts_ex.size();i++) {
+			map.put(recomPosts_ex.get(i).getPost_id(),post_likeRepository.findPost_like_num(recomPosts_ex.get(i).getPost_id()));
+			// System.out.println("post_id: "+freePosts_ex.get(i).getPost_id()+" count: "+post_likeRepository.findPost_like_num(freePosts_ex.get(i).getPost_id()));
+		}
+		model.addAttribute("map_like",map);
 		model.addAttribute("pg",pg);
 		model.addAttribute("recomPosts", recomPosts_ex);
 
@@ -274,11 +291,17 @@ public class APIController {
 	public String boastBoard(Model model,@RequestParam("pg") int pg) {
 		Board board= boardRepository.findById(2).get();
 		List<Post> boastPosts_ex=board.getPosts();
-//		List<Post> boastPosts=new ArrayList<>();
-//		for(int i=boastPosts_ex.size()-1;i>=0;i--) { // date기준으로 역순으로 정렬하려고
-//			boastPosts.add(boastPosts_ex.get(i));
-//		}
+		//		List<Post> boastPosts=new ArrayList<>();
+		//		for(int i=boastPosts_ex.size()-1;i>=0;i--) { // date기준으로 역순으로 정렬하려고
+		//			boastPosts.add(boastPosts_ex.get(i));
+		//		}
 		Collections.sort(boastPosts_ex);
+		HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+		for(int i=0;i<boastPosts_ex.size();i++) {
+			map.put(boastPosts_ex.get(i).getPost_id(),post_likeRepository.findPost_like_num(boastPosts_ex.get(i).getPost_id()));
+			// System.out.println("post_id: "+freePosts_ex.get(i).getPost_id()+" count: "+post_likeRepository.findPost_like_num(freePosts_ex.get(i).getPost_id()));
+		}
+		model.addAttribute("map_like",map);
 		model.addAttribute("pg",pg);
 		model.addAttribute("boastPosts", boastPosts_ex);
 
@@ -287,16 +310,35 @@ public class APIController {
 
 	@RequestMapping(value="post/{id}", method=RequestMethod.GET)
 	public String postId(Model model, @PathVariable("id") int id) {
+		postRepository.updateView(id);
 		Post post= postRepository.findById(id).get();
 		List<File2> files=post.getFiles();//파일
-		postRepository.updateView(id);
 		int board_id=post.getBoard().getBoard_id();
-		System.out.println("board_id~: "+board_id);
+		// System.out.println("board_id~: "+board_id);
+		//		List<Post_like> post_like=post_likeRepository.findAllByPost(post);
+		int like_num=post_likeRepository.findPost_like_num(post.getPost_id());
+		model.addAttribute("like_num",like_num);
 		model.addAttribute("selectBoard",board_id);
 		model.addAttribute("post", post);
 		model.addAttribute("files", files);
 
 		return "page/post";
+	}
+	@RequestMapping(value="post/{id}/post_like", method=RequestMethod.GET)
+	public String postId2(Model model, @PathVariable("id") int id,final HttpSession session,HttpServletRequest request, HttpServletResponse response) throws IOException {
+		System.out.println("post의 post");
+		Optional<Post> optinalEntity =postRepository.findById(id);
+		Post post = optinalEntity.get();
+		User user = (User) session.getAttribute("user");
+		if(post_likeRepository.findExistPost_like(id,user.getUser_idx())!=null) {
+			post_likeRepository.deletePost_like(post.getPost_id(),user.getUser_idx());
+			System.out.println("없음");
+		}
+		else if(post_likeRepository.findExistPost_like(id,user.getUser_idx())==null)
+			post_likeRepository.save(new Post_like(post,user,new Date()));
+
+
+		return "redirect:/page/post/"+id; // url바꾸고 싶을때 redirect사용
 	}
 
 	@RequestMapping(value = "relative", method = RequestMethod.GET)
@@ -408,10 +450,10 @@ public class APIController {
 		int user_idx=0;
 		int board_id=0;
 		User user = (User) session.getAttribute("user");
-	      if(user==null)
-	         System.out.println("nulllll");
-	      else
-	         System.out.println("id입니다!!!:"+user.getUser_idx());
+		if(user==null)
+			System.out.println("nulllll");
+		else
+			System.out.println("id입니다!!!:"+user.getUser_idx());
 		Board board=null;
 		try{
 			MultipartRequest multi = new MultipartRequest(request, savePath, maxSize, "UTF-8", new DefaultFileRenamePolicy());
@@ -421,11 +463,11 @@ public class APIController {
 			System.out.println("title:"+title);
 
 
-//			user_idx = Integer.parseInt(multi.getParameter("user_idx"));
+			//			user_idx = Integer.parseInt(multi.getParameter("user_idx"));
 			System.out.println("user_idx:"+user_idx);
 
-//			Optional<User> optinalEntity = userRepository.findById(user_idx);
-//			user = optinalEntity.get();
+			//			Optional<User> optinalEntity = userRepository.findById(user_idx);
+			//			user = optinalEntity.get();
 
 			board_id = Integer.parseInt(multi.getParameter("board_id"));
 			Optional<Board> optinalEntity2 = boardRepository.findById(board_id);
@@ -450,17 +492,17 @@ public class APIController {
 		}
 
 		postRepository.updateByPost_id(title,content,post_id);
-//		제목과 내용은 수정되는데 파일은 수정이 안되고 처음에 올린 그대로 올라감
-//		if(uploadFile!=null) {
-//			File2 file=new File2();
-//			file.setFile_name(uploadFile);
-//			file.setPost(p);
-//			fileRepository.save(file);
-//		}
-//		System.out.println(newFileName);
-//		System.out.println(uploadFile);
-//		System.out.println("마지막");
-//		return "redirect:/page/post/"+p.getPost_id();
+		//		제목과 내용은 수정되는데 파일은 수정이 안되고 처음에 올린 그대로 올라감
+		//		if(uploadFile!=null) {
+		//			File2 file=new File2();
+		//			file.setFile_name(uploadFile);
+		//			file.setPost(p);
+		//			fileRepository.save(file);
+		//		}
+		//		System.out.println(newFileName);
+		//		System.out.println(uploadFile);
+		//		System.out.println("마지막");
+		//		return "redirect:/page/post/"+p.getPost_id();
 		return "redirect:/page/post/"+post_id;
 
 	}
@@ -514,10 +556,10 @@ public class APIController {
 		int user_idx=0;
 		int board_id=0;
 		User user = (User) session.getAttribute("user");
-	      if(user==null)
-	         System.out.println("nulllll");
-	      else
-	         System.out.println("id입니다!!!:"+user.getUser_idx());
+		if(user==null)
+			System.out.println("nulllll");
+		else
+			System.out.println("id입니다!!!:"+user.getUser_idx());
 		Board board=null;
 		try{
 			MultipartRequest multi = new MultipartRequest(request, savePath, maxSize, "UTF-8", new DefaultFileRenamePolicy());
@@ -527,11 +569,11 @@ public class APIController {
 			System.out.println("title:"+title);
 
 
-//			user_idx = Integer.parseInt(multi.getParameter("user_idx"));
+			//			user_idx = Integer.parseInt(multi.getParameter("user_idx"));
 			System.out.println("user_idx:"+user_idx);
 
-//			Optional<User> optinalEntity = userRepository.findById(user_idx);
-//			user = optinalEntity.get();
+			//			Optional<User> optinalEntity = userRepository.findById(user_idx);
+			//			user = optinalEntity.get();
 
 			board_id = Integer.parseInt(multi.getParameter("board_id"));
 			Optional<Board> optinalEntity2 = boardRepository.findById(board_id);

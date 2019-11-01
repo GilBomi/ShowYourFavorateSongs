@@ -76,7 +76,12 @@
 											</c:if></td>
 										<td>${post.date}</td>
 										<td>${post.view}</td>
-										<td>0</td>
+										<td><c:choose>
+												<c:when test="${map_like.containsKey(post.post_id) eq true}">
+														${map_like.get(post.post_id)}
+												</c:when>
+												<c:otherwise>0</c:otherwise>
+											</c:choose></td>
 									</tr>
 								</c:if>
 							</c:forEach>
@@ -148,7 +153,7 @@
 									onclick="location.href='/page/login'">글작성</button>
 							</c:when>
 							<c:otherwise>
-							<!--글작성-->
+								<!--글작성-->
 								<button type="button" class="btn btn-primary btn3"
 									style="float: right; margin-right: 10px;"
 									onclick="location.href='postWrite/1'">글작성</button>

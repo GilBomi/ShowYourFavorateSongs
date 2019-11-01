@@ -21,8 +21,8 @@ import lombok.ToString;
 
 @Data
 @Entity
-@EqualsAndHashCode(exclude = {"board","user","files"})
-@ToString(exclude = {"board","user","files"})
+@EqualsAndHashCode(exclude = {"board","user","files","post_likes"})
+@ToString(exclude = {"board","user","files","post_likes"})
 
 public class Post implements Comparable{
 
@@ -74,7 +74,9 @@ public class Post implements Comparable{
 	@OneToMany(mappedBy="post")
 	List<File2> files;
 
-
+	@JsonIgnore
+	@OneToMany(mappedBy="post")
+	List<Post_like> post_likes;
 
 }
 

@@ -42,7 +42,10 @@
 							<h4 style="padding-left: 5px;">${post.board.board_name}</h4>
 						</c:if>
 						<c:if test="${selectBoard eq 5}">
-							<br><br><br><br>
+							<br>
+							<br>
+							<br>
+							<br>
 							<h4 style="padding-left: 5px;">공지사항</h4>
 						</c:if>
 						<br>
@@ -84,10 +87,20 @@
 
 						<!--추천-->
 						<div class="lead" style="text-align: center; margin-bottom: 80px;">
-							<a class="btn btn-primary" href="#" role="button"><img
-								src="${pageContext.request.contextPath}/res/images/likey.png">&nbsp;추천</a>
+							<c:choose>
+								<c:when test="${empty user }">
+									<a class="btn btn-primary"
+										href="/page/login" role="button"><img
+										src="${pageContext.request.contextPath}/res/images/likey.png">&nbsp;추천</a>
+								</c:when>
+								<c:otherwise>
+									<a class="btn btn-primary"
+										href="/page/post/${post.post_id}/post_like" role="button"><img
+										src="${pageContext.request.contextPath}/res/images/likey.png">&nbsp;추천</a>
+								</c:otherwise>
+							</c:choose>
 							<div class="btn"
-								style="border: 1px solid grey; background: white; color: grey">&nbsp;0</div>
+								style="border: 1px solid grey; background: white; color: grey">&nbsp;${like_num}</div>
 						</div>
 
 
