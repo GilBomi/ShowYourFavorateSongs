@@ -24,10 +24,17 @@ import lombok.ToString;
 @EqualsAndHashCode(exclude = {"board","user","files"})
 @ToString(exclude = {"board","user","files"})
 
-public class Post {
-	
+public class Post implements Comparable{
+
+	/* date기준으로 역순으로 출력하려고 */
+	@Override
+	public int compareTo(Object o) {
+		// TODO Auto-generated method stub
+		Post p=(Post)o;
+		return p.date.compareTo(this.date);
+	}
 	public Post() {
-		
+
 	}
 
 	public Post(User user, Board board, String title, String content, int view, Date date) {
@@ -51,21 +58,22 @@ public class Post {
 	Integer view;
 
 	//엔티티 생성시 자동으로 시간 저장
-	@CreatedDate 
+	@CreatedDate
 	Date date;
 
 
 	@ManyToOne
 	@JoinColumn(name = "user_idx")
-	User user; 	
+	User user;
 
-	@ManyToOne  
+	@ManyToOne
 	@JoinColumn(name = "board_id")
 	Board board;
 
 	@JsonIgnore
 	@OneToMany(mappedBy="post")
 	List<File2> files;
+
 
 
 }

@@ -5,7 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
@@ -202,12 +202,13 @@ public class APIController {
 	public String notice(Model model,@RequestParam("pg") int pg) {
 		Board board= boardRepository.findById(5).get();
 		List<Post> notices_ex=board.getPosts();//게시판
-		List<Post> notices=new ArrayList<>();
-		for(int i=notices_ex.size()-1;i>=0;i--) { // date기준으로 역순으로 정렬하려고
-			notices.add(notices_ex.get(i));
-		}
+//		List<Post> notices=new ArrayList<>();
+//		for(int i=notices_ex.size()-1;i>=0;i--) { // date기준으로 역순으로 정렬하려고
+//			notices.add(notices_ex.get(i));
+//		}
+		Collections.sort(notices_ex);
 		model.addAttribute("pg", pg);
-		model.addAttribute("notices", notices);
+		model.addAttribute("notices", notices_ex);
 		return "page/notice";
 	}
 
@@ -225,12 +226,13 @@ public class APIController {
 	public String freeBoard(Model model,@RequestParam("pg") int pg) {
 		Board board= boardRepository.findById(1).get();
 		List<Post> freePosts_ex=board.getPosts();//게시판
-		List<Post> freePosts=new ArrayList<>();
-		for(int i=freePosts_ex.size()-1;i>=0;i--) { // date기준으로
-			freePosts.add(freePosts_ex.get(i));
-		}
+//		List<Post> freePosts=new ArrayList<>();
+//		for(int i=freePosts_ex.size()-1;i>=0;i--) { // date기준으로
+//			freePosts.add(freePosts_ex.get(i));
+//		}
+		Collections.sort(freePosts_ex);
 		model.addAttribute("pg",pg);
-		model.addAttribute("freePosts", freePosts);
+		model.addAttribute("freePosts", freePosts_ex);
 
 		return "page/freeBoard";
 	}
@@ -240,12 +242,13 @@ public class APIController {
 	public String tipBoard(Model model,@RequestParam("pg") int pg) {
 		Board board= boardRepository.findById(4).get();
 		List<Post> tipPosts_ex=board.getPosts();
-		List<Post> tipPosts=new ArrayList<>();
-		for(int i=tipPosts_ex.size()-1;i>=0;i--) { // date기준으로 역순으로 정렬하려고
-			tipPosts.add(tipPosts_ex.get(i));
-		}
+//		List<Post> tipPosts=new ArrayList<>();
+//		for(int i=tipPosts_ex.size()-1;i>=0;i--) { // date기준으로 역순으로 정렬하려고
+//			tipPosts.add(tipPosts_ex.get(i));
+//		}
+		Collections.sort(tipPosts_ex);
 		model.addAttribute("pg",pg);
-		model.addAttribute("tipPosts", tipPosts);
+		model.addAttribute("tipPosts", tipPosts_ex);
 
 		return "page/tipBoard";
 	}
@@ -255,12 +258,13 @@ public class APIController {
 	public String recommendBoard(Model model,@RequestParam("pg") int pg) {
 		Board board= boardRepository.findById(3).get();
 		List<Post> recomPosts_ex=board.getPosts();
-		List<Post> recomPosts=new ArrayList<>();
-		for(int i=recomPosts_ex.size()-1;i>=0;i--) { // date기준으로 역순으로 정렬하려고
-			recomPosts.add(recomPosts_ex.get(i));
-		}
+//		List<Post> recomPosts=new ArrayList<>();
+//		for(int i=recomPosts_ex.size()-1;i>=0;i--) { // date기준으로 역순으로 정렬하려고
+//			recomPosts.add(recomPosts_ex.get(i));
+//		}
+		Collections.sort(recomPosts_ex);
 		model.addAttribute("pg",pg);
-		model.addAttribute("recomPosts", recomPosts);
+		model.addAttribute("recomPosts", recomPosts_ex);
 
 		return "page/recommendBoard";
 	}
@@ -270,12 +274,13 @@ public class APIController {
 	public String boastBoard(Model model,@RequestParam("pg") int pg) {
 		Board board= boardRepository.findById(2).get();
 		List<Post> boastPosts_ex=board.getPosts();
-		List<Post> boastPosts=new ArrayList<>();
-		for(int i=boastPosts_ex.size()-1;i>=0;i--) { // date기준으로 역순으로 정렬하려고
-			boastPosts.add(boastPosts_ex.get(i));
-		}
+//		List<Post> boastPosts=new ArrayList<>();
+//		for(int i=boastPosts_ex.size()-1;i>=0;i--) { // date기준으로 역순으로 정렬하려고
+//			boastPosts.add(boastPosts_ex.get(i));
+//		}
+		Collections.sort(boastPosts_ex);
 		model.addAttribute("pg",pg);
-		model.addAttribute("boastPosts", boastPosts);
+		model.addAttribute("boastPosts", boastPosts_ex);
 
 		return "page/boastBoard";
 	}
@@ -564,7 +569,8 @@ public class APIController {
 		return "redirect:/page/post/"+p.getPost_id();
 	}
 
-
 }
+
+
 
 
