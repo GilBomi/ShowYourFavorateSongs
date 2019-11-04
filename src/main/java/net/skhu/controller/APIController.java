@@ -309,7 +309,7 @@ public class APIController {
 	}
 
 	@RequestMapping(value="post/{id}", method=RequestMethod.GET)
-	public String postId(Model model, @PathVariable("id") int id) {
+	public String postId(Model model, @PathVariable("id") int id,final HttpSession session,HttpServletRequest request, HttpServletResponse response) throws IOException {
 		postRepository.updateView(id);
 		Post post= postRepository.findById(id).get();
 		List<File2> files=post.getFiles();//파일
@@ -317,6 +317,13 @@ public class APIController {
 		// System.out.println("board_id~: "+board_id);
 		//		List<Post_like> post_like=post_likeRepository.findAllByPost(post);
 		int like_num=post_likeRepository.findPost_like_num(post.getPost_id());
+		User user = (User) session.getAttribute("user");
+		if(user!=null) {
+			//System.out.println("user_idx: "+user.getUser_idx());
+			Post_like isLiked=post_likeRepository.findExistPost_like(id,user.getUser_idx());
+
+			model.addAttribute("isLiked",isLiked);
+		}
 		model.addAttribute("like_num",like_num);
 		model.addAttribute("selectBoard",board_id);
 		model.addAttribute("post", post);

@@ -53,8 +53,14 @@
 						<br>
 						<!--글 헤더-->
 						<div>
+							<c:set var="theString" value="${post.user.nickname}" />
 							<p class="lead-2">
-								<a href="#">${post.user.nickname}</a>
+								<c:if test="${fn:contains(theString,'관리자')}">${post.user.nickname}</c:if>
+								<c:if test="${fn:indexOf(theString,'관리자')==-1}">
+									<a href="/page/user?user_idx=${post.user.user_idx}"
+										style="text-decoration: none; font-weight: bold; color: grey">${post.user.nickname}</a>
+								</c:if>
+								</a>
 							</p>
 							<p class="lead" style="margin-right: 10px; float: right;">
 								<img
@@ -89,14 +95,25 @@
 						<div class="lead" style="text-align: center; margin-bottom: 80px;">
 							<c:choose>
 								<c:when test="${empty user }">
-									<a class="btn btn-primary"
-										href="/page/login" role="button"><img
+									<a class="btn btn-default" href="/page/login" role="button"
+										style="border: 1px solid grey"><img
 										src="${pageContext.request.contextPath}/res/images/likey.png">&nbsp;추천</a>
 								</c:when>
 								<c:otherwise>
-									<a class="btn btn-primary"
-										href="/page/post/${post.post_id}/post_like" role="button"><img
-										src="${pageContext.request.contextPath}/res/images/likey.png">&nbsp;추천</a>
+
+									<c:choose>
+										<c:when test="${isLiked eq null}">
+											<a class="btn btn-default"
+												href="/page/post/${post.post_id}/post_like" role="button"
+												style="border: 1px solid grey"><img
+												src="${pageContext.request.contextPath}/res/images/likey.png">&nbsp;추천</a>
+										</c:when>
+										<c:otherwise>
+											<a class="btn btn-primary"
+												href="/page/post/${post.post_id}/post_like" role="button"><img
+												src="${pageContext.request.contextPath}/res/images/likey.png">&nbsp;추천</a>
+										</c:otherwise>
+									</c:choose>
 								</c:otherwise>
 							</c:choose>
 							<div class="btn"
