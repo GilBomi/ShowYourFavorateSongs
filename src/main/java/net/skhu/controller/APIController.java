@@ -4,7 +4,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
@@ -34,15 +37,23 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import net.skhu.SendEmailSSL;
 import net.skhu.TempAuth_key;
 import net.skhu.domain.Board;
+import net.skhu.domain.Comment;
+import net.skhu.domain.Comment_like;
 import net.skhu.domain.File2;
 import net.skhu.domain.Post;
 import net.skhu.domain.Post_like;
+import net.skhu.domain.Reply;
 import net.skhu.domain.User;
 import net.skhu.repository.BoardRepository;
+import net.skhu.repository.CommentRepository;
+import net.skhu.repository.Comment_likeRepository;
 import net.skhu.repository.File2Repository;
 import net.skhu.repository.PostRepository;
 import net.skhu.repository.Post_likeRepository;
+import net.skhu.repository.ReplyRepository;
+import net.skhu.repository.Reply_likeRepository;
 import net.skhu.repository.UserRepository;
+
 
 @Controller
 @RequestMapping("/page")
@@ -53,11 +64,23 @@ public class APIController {
 	BoardRepository boardRepository;
 	@Autowired
 	File2Repository fileRepository;
+
 	@Autowired
 	PostRepository postRepository;
 	@Autowired
 	Post_likeRepository post_likeRepository;
 
+	@Autowired
+	CommentRepository commentRepository;
+	@Autowired
+	Comment_likeRepository comment_likeRepository;
+
+	@Autowired
+	ReplyRepository replyRepository;
+	@Autowired
+	Reply_likeRepository reply_likeRepository;
+
+	//가입
 	@RequestMapping(value = "join", method = RequestMethod.GET)
 	public String join(Model model) {
 		List<User> users = userRepository.findAll();
@@ -232,7 +255,7 @@ public class APIController {
 		HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
 		for(int i=0;i<freePosts_ex.size();i++) {
 			map.put(freePosts_ex.get(i).getPost_id(),post_likeRepository.findPost_like_num(freePosts_ex.get(i).getPost_id()));
-			// System.out.println("post_id: "+freePosts_ex.get(i).getPost_id()+" count: "+post_likeRepository.findPost_like_num(freePosts_ex.get(i).getPost_id()));
+			//System.out.println("post_id: "+freePosts_ex.get(i).getPost_id()+" count: "+post_likeRepository.findPost_like_num(freePosts_ex.get(i).getPost_id()));
 		}
 		model.addAttribute("map_like",map);
 
@@ -307,30 +330,211 @@ public class APIController {
 
 		return "page/boastBoard";
 	}
+	@RequestMapping(value = "searchPost/{pg}", method = RequestMethod.GET)
+	public String searchPost2(Model model,@PathVariable("pg") int pg,@RequestParam("search_type") String type, @RequestParam("keyword") String keyword) throws UnsupportedEncodingException {
+		keyword=URLEncoder.encode(keyword, "UTF-8");
+		return "redirect:/page/searchPost?pg="+pg+"&search_type="+type+"&keyword="+keyword;
+	}
+	//게시글 검색
+	@RequestMapping(value = "searchPost", method = RequestMethod.GET)
+	public String searchPost(Model model,@RequestParam("search_type") String type, @RequestParam("keyword") String keyword,@RequestParam("pg") int pg) {
+		List<Post> findedPosts=new ArrayList<Post>();
+		if(type.equals("all")) {
+			System.out.println("전체검색---------------");
+			findedPosts=postRepository.findPostsByNicknameOrTitle(keyword, keyword);
+		}
+		else if(type.equals("title")) {
+			System.out.println("제목검색---------------");
+			findedPosts=postRepository.findPostsByTitle(keyword);
+		}
+		else{
+			System.out.println("작성자검색---------------");
+			findedPosts=postRepository.findPostsByNickname(keyword);
+		}
+		System.out.println("!!!!!!!!"+type);
+
+		Collections.sort(findedPosts);
+		model.addAttribute("finded", findedPosts);
+		model.addAttribute("type", type);
+		model.addAttribute("keyword", keyword);
+
+		HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+		for(int i=0;i<findedPosts.size();i++) {
+			map.put(findedPosts.get(i).getPost_id(),post_likeRepository.findPost_like_num(findedPosts.get(i).getPost_id()));
+			//System.out.println("post_id: "+freePosts_ex.get(i).getPost_id()+" count: "+post_likeRepository.findPost_like_num(freePosts_ex.get(i).getPost_id()));
+		}
+		model.addAttribute("pg",pg);
+		model.addAttribute("map_like",map);
+
+		return "page/searchPost";
+	}
 
 	@RequestMapping(value="post/{id}", method=RequestMethod.GET)
-	public String postId(Model model, @PathVariable("id") int id,final HttpSession session,HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public String postId(Model model, @PathVariable("id") int id,final HttpSession session,HttpServletRequest request, HttpServletResponse response) {
 		postRepository.updateView(id);
 		Post post= postRepository.findById(id).get();
 		List<File2> files=post.getFiles();//파일
+
+		User user = (User) session.getAttribute("user");
+
+		Comment comment=new Comment();
+		Reply reply=new Reply();
+
+		List<Comment> comments=post.getComments();
+		Collections.sort(comments);
+
+
+		//		List<Reply> replies=new ArrayList<Reply>();
+		//		List<Reply> list=new ArrayList<Reply>();
+		//		for(int i=0;i<comments.size();i++) {
+		//			System.out.println(comments.get(i).getContent());
+		//			replies=comments.get(i).getReplies();//
+		//
+		//			for(int j=0;j<replies.size();j++) {
+		//				list.add(replies.get(j));
+		//				System.out.println(comments.get(i).getContent()+"의 대댓글:"+replies.get(j).getContent());
+		//			}
+		//		}
+		//		System.out.println(replies.size());
+		//		System.out.println(list);
+
+
 		int board_id=post.getBoard().getBoard_id();
 		// System.out.println("board_id~: "+board_id);
 		//		List<Post_like> post_like=post_likeRepository.findAllByPost(post);
 		int like_num=post_likeRepository.findPost_like_num(post.getPost_id());
-		User user = (User) session.getAttribute("user");
 		if(user!=null) {
 			//System.out.println("user_idx: "+user.getUser_idx());
 			Post_like isLiked=post_likeRepository.findExistPost_like(id,user.getUser_idx());
 
 			model.addAttribute("isLiked",isLiked);
 		}
+		HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+		for(int i=0;i<comments.size();i++) {
+			map.put(comments.get(i).getComment_id(),comment_likeRepository.like_count(comments.get(i).getComment_id()));
+		}
+
+		//댓글좋아요 유저 목록
+		HashMap<Integer, List<Integer>> map2 = new HashMap<Integer, List<Integer>>();
+		for(int i=0;i<comments.size();i++) {
+			map2.put(comments.get(i).getComment_id(),comment_likeRepository.like_user(comments.get(i).getComment_id()));
+		}
+
+
 		model.addAttribute("like_num",like_num);
+		model.addAttribute("comment_like",map);
+		model.addAttribute("cl_user",map2);
 		model.addAttribute("selectBoard",board_id);
 		model.addAttribute("post", post);
 		model.addAttribute("files", files);
+		model.addAttribute("comment", comment);
+		model.addAttribute("reply", reply);
+		model.addAttribute("comments", comments);
+
 
 		return "page/post";
 	}
+
+	@RequestMapping(value="post/{id}/comment/{comment_id}/delete", method = RequestMethod.GET)
+	public String deleteComment(Model model, @PathVariable("id") int id, @PathVariable("comment_id") int comment_id, final HttpSession session,HttpServletRequest request, HttpServletResponse response) throws IOException{
+		//System.out.println("댓글 삭제"+comment.getComment_id()+"내용:"+comment.getContent());
+		Comment c=commentRepository.findById(comment_id).get();
+		c.setContent("삭제된코멘트");
+		c.setIs_delete(1);
+		//		comment.setContent("삭제된 코멘트");
+		//		Post p=postRepository.findById(id).get();
+		//
+		//		comment.setPost(p);
+		//		comment.setIs_delete(1);
+		//		comment.setDate(comment.getDate());
+		commentRepository.save(c);
+
+		return "redirect:/page/post/"+id;
+	}
+
+	@RequestMapping(value="post/{id}/comment/{comment_id}/{reply_id}/delete", method = RequestMethod.GET)
+	public String deleteReply(Model model, @PathVariable("id") int id, @PathVariable("comment_id") int comment_id,
+			@PathVariable("reply_id") int reply_id, final HttpSession session,HttpServletRequest request, HttpServletResponse response, Comment comment) throws IOException{
+
+		System.out.println("대댓글 삭제"+comment.getComment_id()+"내용:"+comment.getContent());
+		Reply r=replyRepository.findById(reply_id).get();
+		replyRepository.delete(r);
+
+		return "redirect:/page/post/"+id;
+	}
+
+
+	//댓글입력
+	@RequestMapping(value="post/{id}/comment", method = RequestMethod.GET)
+	public String createComment(Model model, @PathVariable("id") int id,final HttpSession session,HttpServletRequest request, HttpServletResponse response, Comment comment) throws IOException {
+		System.out.println("댓글 입력됨");
+		System.out.println(comment.getContent());
+
+		User user = (User) session.getAttribute("user");
+		Optional<Post> post = postRepository.findById(id);
+		Post p=post.get();
+
+		//		List<Reply> replies=comment.getReplies();
+		//		model.addAttribute("replies", replies);
+		//		for(int i=0;i<replies.size();i++) {
+		//			System.out.println(replies.get(i));
+		//		}
+
+		comment.setDate(new Date());
+		comment.setUser(user);
+		comment.setPost(p);
+		//comment.setIs_delete(0);
+
+		commentRepository.save(comment);
+
+
+
+		return "redirect:/page/post/"+id;
+	}
+
+	//댓글입력
+	@RequestMapping(value="post/{id}/comment", method=RequestMethod.POST)
+	public String createComment2(Model model, @PathVariable("id") int id,final HttpSession session,HttpServletRequest request, HttpServletResponse response, Comment comment) throws IOException {
+
+		return "redirect:/page/post/"+id;
+	}
+
+	@RequestMapping(value="post/{id}/comment/{comment_id}/reply", method = RequestMethod.GET)
+	public String createReply(Model model, @PathVariable("id") int id,@PathVariable("comment_id") int comment_id,final HttpSession session,HttpServletRequest request, HttpServletResponse response, Reply reply) throws IOException {
+		System.out.println("대댓글 입력됨");
+		System.out.println(reply.getContent());
+
+		User user = (User) session.getAttribute("user");
+		Optional<Comment> comment = commentRepository.findById(comment_id);
+		Comment c=comment.get();
+
+		reply.setDate(new Date());
+		reply.setUser(user);
+		reply.setComment(c);
+
+		replyRepository.save(reply);
+
+		return "redirect:/page/post/"+id;
+	}
+
+	@RequestMapping(value="post/{id}/comment/{comment_id}/reply", method = RequestMethod.POST)
+	public String createReply2(Model model, @PathVariable("id") int id,@PathVariable("comment_id") int comment_id,final HttpSession session,HttpServletRequest request, HttpServletResponse response, Reply reply) throws IOException {
+		//		System.out.println("대댓글 입력됨");
+		//		System.out.println(reply.getContent());
+		//
+		//		User user = (User) session.getAttribute("user");
+		//		Optional<Comment> comment = commentRepository.findById(id);
+		//		Comment c=comment.get();
+		//
+		//		reply.setDate(new Date());
+		//		reply.setUser(user);
+		//		reply.setComment(c);
+		//
+		//		replyRepository.save(reply);
+
+		return "redirect:/page/post/"+id;
+	}
+
 	@RequestMapping(value="post/{id}/post_like", method=RequestMethod.GET)
 	public String postId2(Model model, @PathVariable("id") int id,final HttpSession session,HttpServletRequest request, HttpServletResponse response) throws IOException {
 		System.out.println("post의 post");
@@ -346,6 +550,30 @@ public class APIController {
 
 
 		return "redirect:/page/post/"+id; // url바꾸고 싶을때 redirect사용
+	}
+
+	//냇글 좋아요
+	@RequestMapping(value="post/{id}/comment/{comment_id}/like", method=RequestMethod.GET)
+	public String commentLike(Model model, @PathVariable("id") int id, @PathVariable("comment_id") int comment_id, final HttpSession session,HttpServletRequest request, HttpServletResponse response) throws IOException {
+		System.out.println("아이디:"+comment_id);
+
+		Comment comment = commentRepository.findById(comment_id).get();
+		User user = (User) session.getAttribute("user");
+
+		Comment_like cl=new Comment_like();
+
+		if(comment_likeRepository.findExistComment_like(comment.getComment_id(),user.getUser_idx())!=null) {
+			System.out.println(comment.getComment_id()+"추천취소");
+			comment_likeRepository.deleteComment_like(comment.getComment_id(),user.getUser_idx());
+		}
+		else if(comment_likeRepository.findExistComment_like(comment.getComment_id(),user.getUser_idx())==null) {
+			System.out.println(comment.getComment_id()+"추천됨");
+			cl.setUser(user);
+			cl.setComment(comment);
+			comment_likeRepository.save(cl);
+		}
+
+		return "redirect:/page/post/"+id;
 	}
 
 	@RequestMapping(value = "relative", method = RequestMethod.GET)
@@ -421,14 +649,48 @@ public class APIController {
 		Post post = optinalEntity2.get();
 		int board_id=post.getBoard().getBoard_id();
 		model.addAttribute("post", post);
-		List<File2> file=fileRepository.findAllByPost(post);
-		model.addAttribute("files", file);
+		List<File2> files=fileRepository.findAllByPost(post);
+		for(int i=0;i<files.size();i++) {
+			System.out.println(files.get(i).getFile_name());
+		}
+
+		model.addAttribute("filelist", files);
 		model.addAttribute("selectBoard", board_id);
 		model.addAttribute("postModify", "yes");
 		// System.out.println("파일 id: "+file.get(0).getFile_id());
 		return "page/postWrite";
 
 	}
+
+	@RequestMapping(value = "delete", method = RequestMethod.GET)
+	public String fileDelete(Model model, @RequestParam("id") int file_id) {
+		File2 file=fileRepository.findById(file_id).get();
+		int post_id=file.getPost().getPost_id();
+		System.out.println(file.getFile_name()+"파일이 삭제됐어요");
+
+		fileRepository.deleteById(file_id);
+
+		//		File2 file=fileRepository.findById(id).get();
+		//		Files.delete(getFilePath(file));
+		return "redirect:postModify?post_id="+post_id;
+
+	}
+
+	@RequestMapping(value = "delete", method = RequestMethod.POST)
+	public String fileDelete2(Model model, @RequestParam("id") int file_id) {
+		File2 file=fileRepository.findById(file_id).get();
+		int post_id=file.getPost().getPost_id();
+		System.out.println(file.getFile_name()+"파일이 삭제됐어요");
+
+		fileRepository.deleteById(file_id);
+
+		//		File2 file=fileRepository.findById(id).get();
+		//		Files.delete(getFilePath(file));
+		return "redirect:postModify?post_id="+post_id;
+
+	}
+
+	//글 수정 메소드   (수정중)
 	@RequestMapping(value = "postModify", method = RequestMethod.POST)
 	public String postModify2(@RequestParam("post_id") int post_id, final HttpSession session,HttpServletRequest request, HttpServletResponse response) throws IOException {
 		int maxSize  = 1024*1024*10;
@@ -438,7 +700,6 @@ public class APIController {
 		System.out.println("root:"+root);
 		// 파일 저장 경로(ex : /home/tour/web/ROOT/upload)
 		String savePath = root + "upload/";
-
 
 		// 업로드 파일명
 		String uploadFile = "";
@@ -476,9 +737,9 @@ public class APIController {
 			//			Optional<User> optinalEntity = userRepository.findById(user_idx);
 			//			user = optinalEntity.get();
 
-			board_id = Integer.parseInt(multi.getParameter("board_id"));
-			Optional<Board> optinalEntity2 = boardRepository.findById(board_id);
-			board = optinalEntity2.get();
+			//			board_id = Integer.parseInt(multi.getParameter("board_id"));
+			//			Optional<Board> optinalEntity2 = boardRepository.findById(board_id);
+			//			board = optinalEntity2.get();
 
 			//title = new String(title.getBytes("8859_1"), "UTF-8");
 
@@ -492,6 +753,7 @@ public class APIController {
 				newFileName = multi.getFilesystemName(file1);
 
 				File file = multi.getFile(file1);
+				System.out.println("!!!!!!!!!!!!!!!!!!!!!!!추가된 이미지: "+uploadFile);
 			}
 
 		} catch(Exception e){
@@ -499,26 +761,29 @@ public class APIController {
 		}
 
 		postRepository.updateByPost_id(title,content,post_id);
-		//		제목과 내용은 수정되는데 파일은 수정이 안되고 처음에 올린 그대로 올라감
-		//		if(uploadFile!=null) {
-		//			File2 file=new File2();
-		//			file.setFile_name(uploadFile);
-		//			file.setPost(p);
-		//			fileRepository.save(file);
-		//		}
-		//		System.out.println(newFileName);
-		//		System.out.println(uploadFile);
-		//		System.out.println("마지막");
-		//		return "redirect:/page/post/"+p.getPost_id();
+		//제목과 내용은 수정되는데 파일은 수정이 안되고 처음에 올린 그대로 올라감
+		if(uploadFile!=null) {
+			File2 file=new File2();
+			file.setFile_name(uploadFile);
+			file.setPost(postRepository.findById(post_id).get());
+			fileRepository.save(file);
+		}
+		System.out.println(newFileName);
+		System.out.println(uploadFile);
+		System.out.println("마지막");
+		//return "redirect:/page/post/"+p.getPost_id();
 		return "redirect:/page/post/"+post_id;
 
 	}
+
 	// 글 추가 메소드
 	@RequestMapping(value = "postWrite/{board_id}", method = RequestMethod.GET)
 	public String postWrite(@PathVariable("board_id") int board_id,Model model,final HttpSession session,HttpServletRequest request, HttpServletResponse response) {
 		User user = (User) session.getAttribute("user");
 		Post post = new Post();
 		File2 file = new File2();
+
+		List<File2> filelist=null;
 
 		List<Board> boards = boardRepository.findAll();
 		List<User> users = userRepository.findAll();
@@ -528,9 +793,11 @@ public class APIController {
 		model.addAttribute("boards", boards);
 		model.addAttribute("users", users);
 		model.addAttribute("files", file);
+		model.addAttribute("filelist", filelist);
 
 		return "page/postWrite";
 	}
+
 
 	@RequestMapping(value = "postWrite/{board_id}", method = RequestMethod.POST)
 	public String postWrite(final HttpSession session,HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -618,8 +885,7 @@ public class APIController {
 		return "redirect:/page/post/"+p.getPost_id();
 	}
 
+
+
 }
-
-
-
 

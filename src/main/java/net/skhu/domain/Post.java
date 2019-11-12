@@ -21,10 +21,10 @@ import lombok.ToString;
 
 @Data
 @Entity
-@EqualsAndHashCode(exclude = {"board","user","files","post_likes"})
-@ToString(exclude = {"board","user","files","post_likes"})
+@EqualsAndHashCode(exclude = {"board","user","files","post_likes","comments"})
+@ToString(exclude = {"board","user","files","post_likes","comments"})
 
-public class Post implements Comparable{
+public class Post implements Comparable<Object>{
 
 	/* date기준으로 역순으로 출력하려고 */
 	@Override
@@ -77,6 +77,10 @@ public class Post implements Comparable{
 	@JsonIgnore
 	@OneToMany(mappedBy="post")
 	List<Post_like> post_likes;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy="post")
+	List<Comment> comments;
 
 }
 

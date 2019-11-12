@@ -30,7 +30,6 @@ public class Board {
     @OneToMany(mappedBy="board")
     List<Post> posts;
 
-
 }
 
 

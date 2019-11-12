@@ -26,14 +26,14 @@
 <body>
 	<!--검색-->
 	<div>
-		<form class="form-inline my-2 my-lg-0">
+		<form action="/page/searchPost/1" class="form-inline my-2 my-lg-0">
 			<select class="form-control" name="search_type">
 				<option value="all">전체</option>
 				<option value="title">제목</option>
 				<option value="writer">작성자</option>
-			</select> <input class="form-control mr-sm-2" type="text" placeholder=""
-				style="margin-left: -3px">
-			<button class="btn btn-secondary my-2 my-sm-0" type="submit"
+			</select> <input name="keyword" class="form-control mr-sm-2" type="text"
+				placeholder="" style="margin-left: -3px">
+			<button type="submit" class="btn btn-secondary my-2 my-sm-0"
 				style="height: 45px; width: 100px; margin-left: -10px; padding-top: 10px;">찾기</button>
 		</form>
 	</div>

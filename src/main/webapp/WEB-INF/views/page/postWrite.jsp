@@ -124,16 +124,20 @@
 							<hr class="my-4" style="clear: both;">
 
 							<div style="padding-left: 10px;">
-								<label for="inputFile">파일 첨부</label> <input type="file"
-									name="filename" class="form-control-file" id="inputFile"
-									aria-describedby="fileHelp" multiple>
+								<label for="inputFile">파일 첨부</label> 
+								<input type="file" name="filename" class="form-control-file" id="inputFile" aria-describedby="fileHelp" multiple>
 							</div>
+							
+							<c:forEach var="file" items="${filelist}">
+								${file.file_name}
+								<span><a href="/page/delete?id=${file.file_id}" style="font-weight: 200">삭제</a></span>
+							</c:forEach>
 
 							<hr class="my-4" style="clear: both;">
 
 							<div style="text-align: center; margin-top: 70px;">
 								<button type="button" class="btn btn-primary btn2"
-									style="width: 100px;" onclick="location.href='freeBoard'">취소</button>
+									style="width: 100px;" onclick="location.href='freeBoard?pg=1'">취소</button>
 								<button type="submit" value="submit" class="btn btn-primary"
 									style="width: 100px;">등록</button>
 							</div>

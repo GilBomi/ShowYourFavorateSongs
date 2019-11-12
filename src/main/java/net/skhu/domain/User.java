@@ -91,10 +91,27 @@ public class User {
     @JsonIgnore
     @OneToMany(mappedBy="user")
     List<Post> posts;
+    
+	@JsonIgnore
+	@OneToMany(mappedBy="user")
+	List<Comment> comments;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy="user")
+	List<Reply> reply;
 
     @JsonIgnore
     @OneToMany(mappedBy="user")
     List<Post_like> post_likes;
+    
+    @JsonIgnore
+    @OneToMany(mappedBy="user")
+    List<Comment_like> comment_likes;
+    
+    @JsonIgnore
+    @OneToMany(mappedBy="user")
+    List<Reply_like> Reply_like;
+    
 //
 //    @JsonIgnore
 //    @OneToMany(mappedBy="department", fetch = FetchType.LAZY)

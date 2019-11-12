@@ -8,18 +8,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import net.skhu.domain.Post_like;
 
-
 public interface Post_likeRepository extends JpaRepository<Post_like, Integer>{
 	@Query("select p from Post_like p where p.post.post_id=:post_id and p.user.user_idx=:user_idx")
 	Post_like findExistPost_like(@RequestParam("post_id") int post_id,@RequestParam("user_idx") int user_idx);
 
 	@Query("select count(p) from Post_like p where p.post.post_id=:post_id")
 	int findPost_like_num(@RequestParam("post_id") int post_id);
-
-	@Query("select p from Post_like p where p.user.user_idx=:user_idx")
-	Post_like isPostLiked(@RequestParam("user_idx") int user_idx);
-
-
 
 	@Transactional
 	@Modifying
