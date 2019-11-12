@@ -43,6 +43,7 @@ import net.skhu.domain.File2;
 import net.skhu.domain.Post;
 import net.skhu.domain.Post_like;
 import net.skhu.domain.Reply;
+import net.skhu.domain.Song;
 import net.skhu.domain.User;
 import net.skhu.repository.BoardRepository;
 import net.skhu.repository.CommentRepository;
@@ -52,6 +53,7 @@ import net.skhu.repository.PostRepository;
 import net.skhu.repository.Post_likeRepository;
 import net.skhu.repository.ReplyRepository;
 import net.skhu.repository.Reply_likeRepository;
+import net.skhu.repository.SongRepositroy;
 import net.skhu.repository.UserRepository;
 
 
@@ -79,6 +81,8 @@ public class APIController {
 	ReplyRepository replyRepository;
 	@Autowired
 	Reply_likeRepository reply_likeRepository;
+	@Autowired
+	SongRepositroy songRepositroy;
 
 	//가입
 	@RequestMapping(value = "join", method = RequestMethod.GET)
@@ -179,10 +183,6 @@ public class APIController {
 		return mv;
 	}
 
-	// @RequestMapping(value="example", method=RequestMethod.GET)
-	// public String example() {
-	// return "page/example";
-	// }
 	@RequestMapping(value = "home", method = RequestMethod.GET)
 	public String list() {
 		return "page/home";
@@ -192,9 +192,23 @@ public class APIController {
 	public String changePwNext() {
 		return "page/changePwNext";
 	}
-
+	@RequestMapping(value = "searchingSong/{kara_type}", method = RequestMethod.GET)
+	public String searching2(Model model, @PathVariable("kara_type") int kara,@RequestParam("keyword") String keyword) throws UnsupportedEncodingException {
+		keyword=URLEncoder.encode(keyword, "UTF-8");
+		return "redirect:/page/searchingSong?keyword="+keyword+"&kara_type="+kara;
+	}
 	@RequestMapping(value = "searchingSong", method = RequestMethod.GET)
-	public String searching() {
+	public String searching(Model model, @RequestParam("keyword") String keyword,@RequestParam("kara_type") int kara) {
+		List<Song> list=songRepositroy.findBySingerIgnoreCaseContaining(keyword);
+		list.addAll(songRepositroy.findByTitleIgnoreCaseContaining(keyword));
+		List<Song> result=new ArrayList<>();
+		for(int i=0;i<list.size();i++) {
+			if(list.get(i).getKara_type()==kara)
+				result.add(list.get(i));
+		}
+		model.addAttribute("kara",kara);
+		model.addAttribute("keyword",keyword);
+		model.addAttribute("songList",result);
 		return "page/searchingSong";
 	}
 
@@ -382,22 +396,6 @@ public class APIController {
 
 		List<Comment> comments=post.getComments();
 		Collections.sort(comments);
-
-
-		//		List<Reply> replies=new ArrayList<Reply>();
-		//		List<Reply> list=new ArrayList<Reply>();
-		//		for(int i=0;i<comments.size();i++) {
-		//			System.out.println(comments.get(i).getContent());
-		//			replies=comments.get(i).getReplies();//
-		//
-		//			for(int j=0;j<replies.size();j++) {
-		//				list.add(replies.get(j));
-		//				System.out.println(comments.get(i).getContent()+"의 대댓글:"+replies.get(j).getContent());
-		//			}
-		//		}
-		//		System.out.println(replies.size());
-		//		System.out.println(list);
-
 
 		int board_id=post.getBoard().getBoard_id();
 		// System.out.println("board_id~: "+board_id);

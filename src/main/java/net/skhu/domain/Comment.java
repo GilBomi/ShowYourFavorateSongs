@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 import org.springframework.data.annotation.CreatedDate;
 
@@ -50,6 +51,7 @@ public class Comment implements Comparable<Object>{
 
 	@JsonIgnore
 	@OneToMany(mappedBy="comment")
+	@OrderBy("date asc") // date asc순대로 replies를 정렬할때 사용
 	List<Reply> replies;
 
 	@Override

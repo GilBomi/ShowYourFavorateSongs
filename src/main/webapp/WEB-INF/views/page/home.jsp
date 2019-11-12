@@ -34,12 +34,14 @@
 						style="padding-top: 200px; padding-bottom: 100px;">
 						<!--곡 검색-->
 						<div style="margin-top: 30px;">
-							<input type="text" class="search-song" id="songName"
-								placeholder="곡 제목 혹은 가수 검색" style="text-align: center;">
-							<div style="text-align: center; margin-top: 30px;">
-								<button type="button" class="btn btn-primary"
-									style="width: 200px;" onclick="location.href='searchingSong'">찾기</button>
-							</div>
+							<form action="/page/searchingSong/0" method="get"> <!-- 0이면 ky,1이면 tj -->
+								<input type="text" class="search-song" name="keyword"
+									placeholder="곡 제목 혹은 가수 검색" style="text-align: center;">
+								<div style="text-align: center; margin-top: 30px;">
+									<button type="submit" class="btn btn-primary"
+										style="width: 200px;">찾기</button>
+								</div>
+							</form>
 						</div>
 					</div>
 				</div>
