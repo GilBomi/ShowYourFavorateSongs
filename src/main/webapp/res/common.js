@@ -1,6 +1,6 @@
 
 $(function() {
-	
+
 	$("[song-add]").click(function(event) {
 		var url = $(this).attr("song-add").split(" ");
 		var result=confirm('이 곡을 마이리스트에 추가하시겠습니까?');
@@ -8,6 +8,10 @@ $(function() {
 			location.href ="/page/addSong?keyword="+url[1]+"&kara_type="+url[0]+"&song_num="+url[2];
 		}
 	});
+	
+	
+	
+
 
 	$("[data-url]").click(function() {
 		var url = $(this).attr("data-url");

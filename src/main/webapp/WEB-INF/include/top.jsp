@@ -103,7 +103,7 @@
 							<c:otherwise>
 								<ul class="nav navbar-nav">
 									<li class="nav-item"><a class="nav-link logout"
-										data-url="/page/user?user_idx=${ user.user_idx}"
+										data-url="/page/user?user_idx=${ user.user_idx}&kara_type=0&sort=0"
 										style="color: white; cursor: pointer; border: 1px solid #585858; padding: 10px 15px 10px 15px;">마이페이지</a>
 									</li>
 								</ul>

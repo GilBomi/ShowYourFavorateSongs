@@ -10,6 +10,7 @@ import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -235,18 +236,41 @@ public class APIController {
 		else {
 			System.out.println("이미있는곡");
 			response.setContentType("text/html; charset=UTF-8");
-            PrintWriter out = response.getWriter();
-            out.println("<script>alert('이미 추가된 곡입니다.');history.go(-1);</script>");
-            out.flush();
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('이미 추가된 곡입니다.');history.go(-1);</script>");
+			out.flush();
 		}
 		return "redirect:/page/searchingSong?keyword="+keyword+"&kara_type="+kara_type;
 	}
 
 	@RequestMapping(value = "user", method = RequestMethod.GET)
-	public String user(Model model,@RequestParam("user_idx") int user_idx) {
+	public String user(Model model,@RequestParam("user_idx") int user_idx,@RequestParam("kara_type") int kara_type,@RequestParam("sort") int sort) {
 		Optional<User> optinalEntity2=userRepository.findById(user_idx);
 		User user = optinalEntity2.get();
+		List<Song_like> song_likes=song_likeRepository.findByUser_idxAndKara_type(user.getUser_idx(),kara_type);
+
+		Comparator<Song_like> salesComparator;
+		if(sort==0) { // 가수별 정렬일때
+			salesComparator = new Comparator<Song_like>() {
+				@Override
+				public int compare(Song_like o1, Song_like o2) {
+					return o1.getSong().getSinger().compareTo(o2.getSong().getSinger());
+				}
+			};
+		}
+		else { // 제목별 정렬일때
+			salesComparator = new Comparator<Song_like>() {
+				@Override
+				public int compare(Song_like o1, Song_like o2) {
+					return o1.getSong().getTitle().compareTo(o2.getSong().getTitle());
+				}
+			};
+		}
+		Collections.sort(song_likes,salesComparator);
+		model.addAttribute("songs",song_likes);
 		model.addAttribute("u",user);
+		model.addAttribute("kara",kara_type);
+		model.addAttribute("sort",sort);
 		System.out.println("유저페이지~");
 		return "page/user";
 	}

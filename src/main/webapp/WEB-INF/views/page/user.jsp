@@ -34,7 +34,7 @@
 			<div id="content">
 				<div
 					style="text-align: center; padding-top: 200px; padding-bottom: 20px;">
-					<h1 style="font-size: 20pt">${u.nickname}님의 개인페이지</h1>
+					<h1 style="font-size: 20pt">${u.nickname}님의개인페이지</h1>
 				</div>
 
 				<hr
@@ -57,8 +57,9 @@
 						<!--유저 삭제-->
 						<c:choose>
 							<c:when test="${user.manager eq 'true' }">
-								<button type="button" class="btn btn-primary btn3" 
-									style="float: right; border: 1px solid #FA5858; background: #FA5858;" onclick="location.href='userDelete?user_idx=${u.user_idx}'">유저
+								<button type="button" class="btn btn-primary btn3"
+									style="float: right; border: 1px solid #FA5858; background: #FA5858;"
+									onclick="location.href='userDelete?user_idx=${u.user_idx}'">유저
 									삭제</button>
 							</c:when>
 						</c:choose>
@@ -83,51 +84,56 @@
 				</div>
 
 				<div style="padding-bottom: 10px; text-align: center;">
-					<h1 style="font-size: 15pt">${u.nickname}님의애창곡 목록</h1>
+					<h1 style="font-size: 15pt">${u.nickname}님의애창곡목록</h1>
 				</div>
 				<hr
-					style="margin-bottom: 20px; border: 0; height: 1px; background: #E6E6E6; clear: both;">
+					style="margin-bottom: -40px; border: 0; height: 1px; background: #E6E6E6; clear: both;">
 
 				<div class="container" style="margin-bottom: 200px;">
 					<div class="jumbotron" style="margin-top: 10px;">
+						<c:if test="${kara eq 0}">
+							<button type="button" class="btn btn-primary btn"
+								style="margin-left: 230px; width: 300px; border: 1px solid black"
+								onclick="location.href='/page/user?user_idx=${user.user_idx}&kara_type=0&sort=0'">금영</button>
+							<button type="button" class="btn btn-default btn"
+								style="margin-left: 30px; width: 300px; border: 1px solid black"
+								onclick="location.href='/page/user?user_idx=${user.user_idx}&kara_type=1&sort=0'">태진</button>
+						</c:if>
+						<c:if test="${kara eq 1}">
+							<button type="button" class="btn btn-default btn"
+								style="margin-left: 230px; width: 300px; border: 1px solid black"
+								onclick="location.href='/page/user?user_idx=${user.user_idx}&kara_type=0&sort=0'">금영</button>
+							<button type="button" class="btn btn-primary btn"
+								style="margin-left: 30px; width: 300px; border: 1px solid black"
+								onclick="location.href='/page/user?user_idx=${user.user_idx}&kara_type=1&sort=0'">태진</button>
+						</c:if>
+						<br> <br>
 						<div class="form-group" style="margin-bottom: 50px;">
-							<select class="custom-select">
-								<option value="1">가수로 정렬</option>
-								<option value="2">제목으로 정렬</option>
+							<select class="custom-select" id="sort"
+								onchange="chageLangSelect()">
+								<option value="0" data-sort="${user.user_idx} ${kara_type} 0"
+									<c:if test="${sort eq 0}">selected</c:if>>가수로 정렬</option>
+								<option value="1" data-sort="${user.user_idx} ${kara_type} 1"
+									<c:if test="${sort eq 1}">selected</c:if>>제목으로 정렬</option>
 							</select>
 						</div>
 						<table class="table table-hover" style="color: #2E2E2E;">
 							<thead>
 								<tr>
-									<th style="font-weight: bold; font-size: 12pt;">태진</th>
-									<th style="font-weight: bold; font-size: 12pt;">금영</th>
+									<th style="font-weight: bold; font-size: 12pt;">번호</th>
 									<th style="font-weight: bold; font-size: 12pt;">곡명</th>
 									<th style="font-weight: bold; font-size: 12pt;">가수</th>
 								</tr>
 							</thead>
 
 							<tbody>
-								<tr data-delete-list style="cursor: pointer">
-									<td>8797</td>
-									<td>6286</td>
-									<td>Tears</td>
-									<td>소찬휘</td>
-								</tr>
-
-								<tr data-delete-list style="cursor: pointer">
-									<td>46732</td>
-									<td>88725</td>
-									<td>Lazenca, Save Us(우리동네음악대장)</td>
-									<td>하현우</td>
-								</tr>
-
-								<tr data-delete-list style="cursor: pointer">
-									<td>96806</td>
-									<td>49720</td>
-									<td>My Way</td>
-									<td>이수</td>
-								</tr>
-
+								<c:forEach var="song" items="${songs}" varStatus="status">
+									<tr data-delete-list style="cursor: pointer">
+										<td>${song.song.song_num}</td>
+										<td>${song.song.title}</td>
+										<td>${song.song.singer}</td>
+									</tr>
+								</c:forEach>
 							</tbody>
 
 						</table>
@@ -160,4 +166,14 @@
 		<%@ include file="/WEB-INF/include/footer.jsp"%>
 
 	</div>
+	
+	<script>
+		function chageLangSelect() {
+			var langSelect = document.getElementById("sort");
+
+			// select element에서 선택된 option의 value가 저장된다.
+			var selectValue = langSelect.options[langSelect.selectedIndex].value;
+			location.href = "/page/user?user_idx=${user.user_idx}&kara_type=${kara}&sort="+selectValue;
+		}
+	</script>
 </body>

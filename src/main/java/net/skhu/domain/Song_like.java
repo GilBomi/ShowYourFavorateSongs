@@ -15,7 +15,7 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Song_like {
+public class Song_like implements Comparable<Object> {
 	public Song_like() {}
 	public Song_like(Song song,User user,Date date) {
 		// TODO Auto-generated constructor stub
@@ -23,7 +23,12 @@ public class Song_like {
 		this.user=user;
 		this.date=date;
 	}
-
+	@Override
+	public int compareTo(Object o) {
+		// TODO Auto-generated method stub
+		Song_like c=(Song_like)o;
+		return c.date.compareTo(this.date);
+	}
 	//기본키
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
