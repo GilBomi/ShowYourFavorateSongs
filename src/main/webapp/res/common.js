@@ -1,60 +1,66 @@
 
 $(function() {
+	
+	$("[song-add]").click(function(event) {
+		var url = $(this).attr("song-add").split(" ");
+		var result=confirm('이 곡을 마이리스트에 추가하시겠습니까?');
+		if(result) {
+			location.href ="/page/addSong?keyword="+url[1]+"&kara_type="+url[0]+"&song_num="+url[2];
+		}
+	});
 
 	$("[data-url]").click(function() {
 		var url = $(this).attr("data-url");
 		location.href = url;
-	})
-
-
+	});
 
 	$("[data-confirm-delete]").click(function() {
 		return confirm("삭제하시겠습니까?");
-	})
+	});
 	$("[data-add-list]").click(function() {
 		return confirm("마이 리스트에 추가하시겠습니까?");
-	})
+	});
 	$("[data-delete-list]").click(function() {
 		return confirm("마이 리스트에서 삭제하시겠습니까?");
-	})
+	});
 	$("[data-add-board]").click(function() {
 		return confirm("글을 등록하시겠습니까?");
-	})
+	});
 	$("[data-delete-board]").click(function() {
 		return confirm("글을 삭제하시겠습니까?");
-	})
+	});
 	$("[data-modify-board]").click(function() {
 		return confirm("글을 수정하시겠습니까?");
-	})
+	});
 	$("[data-cancel-board]").click(function() {
 		return confirm("작성을 취소하시겠습니까?");
-	})
+	});
 	$("[data-delete-comment]").click(function() {
 		return confirm("댓글을 삭제하시겠습니까?");
-	})
+	});
 
 	//추가
 	$("[data-follow]").click(function() {
 		return confirm("팔로우 하시겠습니까?");
-	})
+	});
 
 	$("[data-user-ban]").click(function() {
 		return confirm("해당 유저를 영구히 삭제하시겠습니까?");
-	})
+	});
 
 	$("[data-cancle-profile]").click(function() {
 		return confirm("변경 사항을 취소하겠습니까?");
-	})
+	});
 
 	$("[data-change-profile]").click(function() {
 		return confirm("변경 사항을 저장하겠습니까?");
-	})
+	});
 
 
 	$("[data-rereply]").click(function() {  //dataurl받아서 
 		var url = $(this).attr("data-rereply");
 		$("[data-txar]").eq(url).toggle();
-	})
+	});
 
 	$(document).ready(function(){
 		var modalLayer = $("#modalLayer");
@@ -75,7 +81,7 @@ $(function() {
 			modalLayer.fadeOut("slow");
 			modalLink.focus();
 		});   
-	})
+	});
 
 })
 

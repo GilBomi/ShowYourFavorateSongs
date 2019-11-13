@@ -14,14 +14,15 @@
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="${R}res/common.js"></script>
+<!-- <script src="${R}res/common.js"></script>-->
 <link rel="stylesheet" href="${R}res/common.css">
 
 
 <!-- jQuery -->
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script src="<c:url value='/js/common.js'/>" charset="utf-8"></script>
+<!-- <script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>-->
+
+<!-- <script src="<c:url value='/js/common.js'/>" charset="utf-8"></script>-->
 
 <body>
 		<div class="image-container-main" style="position: absolute; top: 0; background: black;"><img src="${pageContext.request.contextPath}/res/images/main1.png"></div>

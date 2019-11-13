@@ -19,9 +19,9 @@
 
 
 <!-- jQuery -->
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script src="<c:url value='/js/common.js'/>" charset="utf-8"></script>
+<!-- <script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>-->
+<!--  <script src="<c:url value='/js/common.js'/>" charset="utf-8"></script>-->
 
 <body>
 	<div id="wrap">
@@ -53,7 +53,7 @@
 						<br> <br>
 						<c:if test="${kara eq 0}">
 							<button type="button" class="btn btn-primary btn"
-								style="margin-left: 230px; width: 300px; border: 1px solid black" onclick="location.href='/page/searchingSong/0?keyword=${keyword}'">금영</button>
+								style="margin-left: 230px; width: 300px; border: 1px solid black" onclick="location.href='/page/searchingSong/0?keyword=${keyword}'" >금영</button>
 							<button type="button" class="btn btn-default btn"
 								style="margin-left: 30px; width: 300px; border: 1px solid black" onclick="location.href='/page/searchingSong/1?keyword=${keyword}'">태진</button>
 						</c:if>
@@ -77,7 +77,7 @@
 
 							<tbody>
 								<c:forEach var="song" items="${songList}" varStatus="status">
-									<tr data-add-list style="cursor: pointer">
+									<tr style="cursor: pointer" song-add="${kara} ${keyword} ${song.song_num}" >
 										<td>${song.song_num}</td>
 										<td>${song.title}</td>
 										<td>${song.singer}</td>

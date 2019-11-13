@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
@@ -44,6 +45,7 @@ import net.skhu.domain.Post;
 import net.skhu.domain.Post_like;
 import net.skhu.domain.Reply;
 import net.skhu.domain.Song;
+import net.skhu.domain.Song_like;
 import net.skhu.domain.User;
 import net.skhu.repository.BoardRepository;
 import net.skhu.repository.CommentRepository;
@@ -54,6 +56,7 @@ import net.skhu.repository.Post_likeRepository;
 import net.skhu.repository.ReplyRepository;
 import net.skhu.repository.Reply_likeRepository;
 import net.skhu.repository.SongRepositroy;
+import net.skhu.repository.Song_likeRepository;
 import net.skhu.repository.UserRepository;
 
 
@@ -83,6 +86,8 @@ public class APIController {
 	Reply_likeRepository reply_likeRepository;
 	@Autowired
 	SongRepositroy songRepositroy;
+	@Autowired
+	Song_likeRepository song_likeRepository;
 
 	//가입
 	@RequestMapping(value = "join", method = RequestMethod.GET)
@@ -210,6 +215,31 @@ public class APIController {
 		model.addAttribute("keyword",keyword);
 		model.addAttribute("songList",result);
 		return "page/searchingSong";
+	}
+	@RequestMapping(value = "addSong", method = RequestMethod.GET)
+	public String addSong(Model model,@RequestParam("keyword") String keyword,@RequestParam("kara_type") int kara_type,@RequestParam("song_num") int song_num,final HttpSession session,HttpServletRequest request, HttpServletResponse response) throws IOException {
+		keyword=URLEncoder.encode(keyword, "UTF-8");
+		Song song=songRepositroy.findBySongNumAndKara_Type(song_num,kara_type);
+		// Song_like s=song_like.get();
+		System.out.println("addsong");
+		User user = (User) session.getAttribute("user");
+		if(user==null) {
+			return "redirect:/page/login";
+		}
+		System.out.println("song_id:"+song.getSong_id());
+		Song_like song_like=song_likeRepository.ExistBySong_id(song.getSong_id());
+		System.out.println("뒷부분");
+		if(song_like==null) {
+			song_likeRepository.save(new Song_like(song,user,new Date()));
+		}
+		else {
+			System.out.println("이미있는곡");
+			response.setContentType("text/html; charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            out.println("<script>alert('이미 추가된 곡입니다.');history.go(-1);</script>");
+            out.flush();
+		}
+		return "redirect:/page/searchingSong?keyword="+keyword+"&kara_type="+kara_type;
 	}
 
 	@RequestMapping(value = "user", method = RequestMethod.GET)

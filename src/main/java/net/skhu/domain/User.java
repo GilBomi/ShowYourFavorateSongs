@@ -91,11 +91,11 @@ public class User {
     @JsonIgnore
     @OneToMany(mappedBy="user")
     List<Post> posts;
-    
+
 	@JsonIgnore
 	@OneToMany(mappedBy="user")
 	List<Comment> comments;
-	
+
 	@JsonIgnore
 	@OneToMany(mappedBy="user")
 	List<Reply> reply;
@@ -103,21 +103,17 @@ public class User {
     @JsonIgnore
     @OneToMany(mappedBy="user")
     List<Post_like> post_likes;
-    
+
     @JsonIgnore
     @OneToMany(mappedBy="user")
     List<Comment_like> comment_likes;
-    
+
     @JsonIgnore
     @OneToMany(mappedBy="user")
     List<Reply_like> Reply_like;
-    
-//
-//    @JsonIgnore
-//    @OneToMany(mappedBy="department", fetch = FetchType.LAZY)
-//    List<Course> courses;
-//
-//    @JsonIgnore
-//    @OneToMany(mappedBy="department", fetch = FetchType.LAZY)
-//    List<Professor> professors;
+
+    @JsonIgnore
+    @OneToMany(mappedBy="user")
+    List<Song_like> song_likes;
+
 }
