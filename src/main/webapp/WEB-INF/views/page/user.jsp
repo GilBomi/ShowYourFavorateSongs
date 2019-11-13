@@ -111,10 +111,10 @@
 						<div class="form-group" style="margin-bottom: 50px;">
 							<select class="custom-select" id="sort"
 								onchange="chageLangSelect()">
-								<option value="0" data-sort="${user.user_idx} ${kara_type} 0"
-									<c:if test="${sort eq 0}">selected</c:if>>가수로 정렬</option>
-								<option value="1" data-sort="${user.user_idx} ${kara_type} 1"
-									<c:if test="${sort eq 1}">selected</c:if>>제목으로 정렬</option>
+								<option value="0" <c:if test="${sort eq 0}">selected</c:if>>가수로
+									정렬</option>
+								<option value="1" <c:if test="${sort eq 1}">selected</c:if>>제목으로
+									정렬</option>
 							</select>
 						</div>
 						<table class="table table-hover" style="color: #2E2E2E;">
@@ -128,7 +128,8 @@
 
 							<tbody>
 								<c:forEach var="song" items="${songs}" varStatus="status">
-									<tr data-delete-list style="cursor: pointer">
+									<tr song-delete="${user.user_idx} ${kara} ${sort} ${song.song.song_id}"
+										style="cursor: pointer">
 										<td>${song.song.song_num}</td>
 										<td>${song.song.title}</td>
 										<td>${song.song.singer}</td>
@@ -166,14 +167,15 @@
 		<%@ include file="/WEB-INF/include/footer.jsp"%>
 
 	</div>
-	
+
 	<script>
 		function chageLangSelect() {
 			var langSelect = document.getElementById("sort");
 
 			// select element에서 선택된 option의 value가 저장된다.
 			var selectValue = langSelect.options[langSelect.selectedIndex].value;
-			location.href = "/page/user?user_idx=${user.user_idx}&kara_type=${kara}&sort="+selectValue;
+			location.href = "/page/user?user_idx=${user.user_idx}&kara_type=${kara}&sort="
+					+ selectValue;
 		}
 	</script>
 </body>

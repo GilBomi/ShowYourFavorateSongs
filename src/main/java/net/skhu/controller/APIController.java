@@ -229,7 +229,6 @@ public class APIController {
 		}
 		System.out.println("song_id:"+song.getSong_id());
 		Song_like song_like=song_likeRepository.ExistBySong_id(song.getSong_id());
-		System.out.println("뒷부분");
 		if(song_like==null) {
 			song_likeRepository.save(new Song_like(song,user,new Date()));
 		}
@@ -243,6 +242,11 @@ public class APIController {
 		return "redirect:/page/searchingSong?keyword="+keyword+"&kara_type="+kara_type;
 	}
 
+	@RequestMapping(value = "deleteSong", method = RequestMethod.GET)
+	public String deleteSong(Model model,@RequestParam("user_idx") int user_idx,@RequestParam("kara_type") int kara_type,@RequestParam("sort") int sort,@RequestParam("song_id") int song_id) {
+		song_likeRepository.deleteSong(song_id,user_idx);
+		return "redirect:/page/user?user_idx="+user_idx+"&kara_type="+kara_type+"&sort="+sort;
+	}
 	@RequestMapping(value = "user", method = RequestMethod.GET)
 	public String user(Model model,@RequestParam("user_idx") int user_idx,@RequestParam("kara_type") int kara_type,@RequestParam("sort") int sort) {
 		Optional<User> optinalEntity2=userRepository.findById(user_idx);

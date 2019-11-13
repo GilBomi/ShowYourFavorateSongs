@@ -9,7 +9,13 @@ $(function() {
 		}
 	});
 	
-	
+	$("[song-delete]").click(function(event) {
+		var url = $(this).attr("song-delete").split(" ");
+		var result=confirm('이 곡을 마이리스트에서 삭제하시겠습니까?');
+		if(result) {
+			location.href ="/page/deleteSong?user_idx="+url[0]+"&kara_type="+url[1]+"&sort="+url[2]+"&song_id="+url[3];
+		}
+	});
 	
 
 
