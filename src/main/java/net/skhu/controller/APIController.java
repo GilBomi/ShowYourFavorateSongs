@@ -42,6 +42,7 @@ import net.skhu.domain.Board;
 import net.skhu.domain.Comment;
 import net.skhu.domain.Comment_like;
 import net.skhu.domain.File2;
+import net.skhu.domain.Follow;
 import net.skhu.domain.Post;
 import net.skhu.domain.Post_like;
 import net.skhu.domain.Reply;
@@ -52,6 +53,7 @@ import net.skhu.repository.BoardRepository;
 import net.skhu.repository.CommentRepository;
 import net.skhu.repository.Comment_likeRepository;
 import net.skhu.repository.File2Repository;
+import net.skhu.repository.FollowRepository;
 import net.skhu.repository.PostRepository;
 import net.skhu.repository.Post_likeRepository;
 import net.skhu.repository.ReplyRepository;
@@ -89,7 +91,8 @@ public class APIController {
 	SongRepositroy songRepositroy;
 	@Autowired
 	Song_likeRepository song_likeRepository;
-
+	@Autowired
+	FollowRepository followRepository;
 	//가입
 	@RequestMapping(value = "join", method = RequestMethod.GET)
 	public String join(Model model) {
@@ -247,11 +250,19 @@ public class APIController {
 		song_likeRepository.deleteSong(song_id,user_idx);
 		return "redirect:/page/user?user_idx="+user_idx+"&kara_type="+kara_type+"&sort="+sort;
 	}
+	@RequestMapping(value = "follow", method = RequestMethod.GET)
+	public String follow(Model model,@RequestParam("user_idx") int user_idx,@RequestParam("kara_type") int kara_type,@RequestParam("sort") int sort,@RequestParam("my_user_idx") int my_user_idx) {
+		if(my_user_idx==-1)
+			return "redirect:/page/login";
+		followRepository.save(new Follow());
+		return "redirect:/page/user?user_idx="+user_idx+"&kara_type="+kara_type+"&sort="+sort;
+	}
 	@RequestMapping(value = "user", method = RequestMethod.GET)
-	public String user(Model model,@RequestParam("user_idx") int user_idx,@RequestParam("kara_type") int kara_type,@RequestParam("sort") int sort) {
+	public String user(Model model,@RequestParam("user_idx") int user_idx,@RequestParam("kara_type") int kara_type,@RequestParam("sort") int sort,final HttpSession session,HttpServletRequest request, HttpServletResponse response) {
 		Optional<User> optinalEntity2=userRepository.findById(user_idx);
 		User user = optinalEntity2.get();
 		List<Song_like> song_likes=song_likeRepository.findByUser_idxAndKara_type(user.getUser_idx(),kara_type);
+		User me = (User) session.getAttribute("user");
 
 		Comparator<Song_like> salesComparator;
 		if(sort==0) { // 가수별 정렬일때
@@ -271,12 +282,32 @@ public class APIController {
 			};
 		}
 		Collections.sort(song_likes,salesComparator);
+		model.addAttribute("me",me);
 		model.addAttribute("songs",song_likes);
 		model.addAttribute("u",user);
 		model.addAttribute("kara",kara_type);
 		model.addAttribute("sort",sort);
 		System.out.println("유저페이지~");
 		return "page/user";
+	}
+	@RequestMapping(value = "changeProfile", method = RequestMethod.GET)
+	public String changeProfile(Model model,@RequestParam("user_idx") int user_idx,final HttpSession session,HttpServletRequest request, HttpServletResponse response) {
+		User user = (User) session.getAttribute("user");
+		Optional<User> me=userRepository.findById(user.getUser_idx());
+		model.addAttribute("me",me.get());
+		List<User> users=userRepository.findAll();
+		model.addAttribute("users",users);
+		return "page/changeProfile";
+	}
+	@RequestMapping(value = "changeProfile", method = RequestMethod.POST)
+	public String changeProfile(Model model,@RequestParam("message") String message,@RequestParam("nickname") String nickname,@RequestParam("password") String password,final HttpSession session,HttpServletRequest request, HttpServletResponse response) {
+		User user = (User) session.getAttribute("user");
+		System.out.println("changeProfile post");
+		System.out.println("nickname:"+nickname+" message:"+message+" password:"+password);
+		userRepository.updateProfile(user.getUser_idx(),message,nickname,password);
+//		session.invalidate();
+//		session.setAttribute("user", user);
+		return "redirect:/page/user?user_idx="+user.getUser_idx()+"&kara_type=0&sort=0";
 	}
 
 	@RequestMapping(value = "map", method = RequestMethod.GET)

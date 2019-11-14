@@ -36,7 +36,7 @@
 					<%@ include file="/WEB-INF/include/communityList.jsp"%>
 				</c:if>
 				<div class="container">
-
+					<c:set var="theString" value="${post.user.nickname}" />
 					<div class="jumbotron" style="margin-top: 10px;">
 						<c:if test="${selectBoard ne 5}">
 							<h4 style="padding-left: 5px;">${post.board.board_name}</h4>
@@ -54,7 +54,13 @@
 						<!--글 헤더-->
 						<div>
 							<p class="lead-2">
-								<a href="#">${post.user.nickname}</a>
+								<c:if test="${fn:contains(theString,'관리자')}">${post.user.nickname}</c:if>
+								<c:if test="${fn:indexOf(theString,'관리자')==-1}">
+									<a
+										href="/page/user?user_idx=${post.user.user_idx}&kara_type=0&sort=0"
+										style="text-decoration: none; font-weight: bold; color: grey">${post.user.nickname}</a>
+								</c:if>
+								</a>
 							</p>
 							<p class="lead" style="margin-right: 10px; float: right;">
 								<img
@@ -143,146 +149,184 @@
 						<!--댓글 목록-->
 						<div>
 							<ul class="reply_ul">
-							<c:forEach var="comments" items="${comments}" varStatus="status">
-								
-									<li  style="margin-top:10px; padding-bottom:-20px;">
+								<c:forEach var="comments" items="${comments}" varStatus="status">
+									<c:set var="theString2" value="${comments.user.nickname}" />
+									<li style="margin-top: 10px; padding-bottom: -20px;">
 										<div>
 											<p class="user_id">
 												<c:if test="${comments.is_delete==0}">
-													<a href="#">${comments.user.nickname}</a>
+													<c:if test="${fn:contains(theString2,'관리자')}">${comments.user.nickname}</c:if>
+													<c:if test="${fn:indexOf(theString2,'관리자')==-1}">
+														<a
+															href="/page/user?user_idx=${comments.user.user_idx}&kara_type=0&sort=0"
+															style="text-decoration: none; font-weight: bold; color: grey">${comments.user.nickname}</a>
+													</c:if>
 													<span>${comments.date}</span>
 													<!--댓글 삭제-->
 													<c:choose>
-														<c:when test="${comments.user.user_idx eq user.user_idx || user.manager eq 'true'}">
-															<span style="float: right;"><a href="/page/post/${post.post_id}/comment/${comments.comment_id}/delete" style="font-weight: 200">삭제</a></span>
+														<c:when
+															test="${comments.user.user_idx eq user.user_idx || user.manager eq 'true'}">
+															<span style="float: right;"><a
+																href="/page/post/${post.post_id}/comment/${comments.comment_id}/delete"
+																style="font-weight: 200">삭제</a></span>
 														</c:when>
 													</c:choose>
 												</c:if>
 											</p>
-											
+
 											<!--댓글내용-->
 											<c:if test="${comments.is_delete==0}">
 												<div class="reply_text">${comments.content}</div>
 											</c:if>
 											<c:if test="${comments.is_delete==1}">
-												<div class="reply_text" style="color:#BDBDBD; margin-top:-10px;font-size:14pt;">${comments.content}</div>
+												<div class="reply_text"
+													style="color: #BDBDBD; margin-top: -10px; font-size: 14pt;">${comments.content}</div>
 											</c:if>
-											
+
 											<!--코멘트 좋아요-->
 											<div>
-											<c:if test="${comments.is_delete==0}">
-												<c:choose>
-													<c:when test="${empty user }">
-														<button type="button" class="btn btn-primary btn5" style="border: 1px solid #BDBDBD; background: #fff; color: #BDBDBD; float: right;" onclick="location.href='/page/login'">
-															<img src=${pageContext.request.contextPath}/res/images/likey.png>
-															<c:choose>
-																<c:when test="${comment_like.containsKey(comments.comment_id) eq true}">
+												<c:if test="${comments.is_delete==0}">
+													<c:choose>
+														<c:when test="${empty user }">
+															<button type="button" class="btn btn-primary btn5"
+																style="border: 1px solid #BDBDBD; background: #fff; color: #BDBDBD; float: right;"
+																onclick="location.href='/page/login'">
+																<img
+																	src=${pageContext.request.contextPath}/res/images/likey.png>
+																<c:choose>
+																	<c:when
+																		test="${comment_like.containsKey(comments.comment_id) eq true}">
 																		추천 ${comment_like.get(comments.comment_id)}
 																</c:when>
-																<c:otherwise>추천 0</c:otherwise>
-															</c:choose>
-														</button>
-													</c:when>
-													<c:otherwise>
-														<form action="/page/post/${post.post_id}/comment/${comments.comment_id}/like">
-															<c:choose>
-																<c:when test="${cl_user.get(comments.comment_id).contains(user.user_idx) eq true}">
-																<button type="submit" class="btn btn-primary btn5" style="border: 1px solid #BDBDBD; background: #black; color: #BDBDBD; float: right; onclick="location.href='#'">
-																</c:when>
-																<c:otherwise>
-																<button type="submit" class="btn btn-primary btn5" style="border: 1px solid #BDBDBD; background: #fff; color: #BDBDBD; float: right; onclick="location.href='#'">
-																</c:otherwise>
-															</c:choose>
-																<img src=${pageContext.request.contextPath}/res/images/likey.png>
+																	<c:otherwise>추천 0</c:otherwise>
+																</c:choose>
+															</button>
+														</c:when>
+														<c:otherwise>
+															<form
+																action="/page/post/${post.post_id}/comment/${comments.comment_id}/like">
 																<c:choose>
-																	<c:when test="${comment_like.containsKey(comments.comment_id) eq true}">
+																	<c:when
+																		test="${cl_user.get(comments.comment_id).contains(user.user_idx) eq true}">
+																		<button type="submit" class="btn btn-primary btn5"
+																			style="border: 1px solid #BDBDBD; background: #black; color: #BDBDBD; float: right;"
+																			location.href='#'">
+																	</c:when>
+																	<c:otherwise>
+																		<button type="submit" class="btn btn-primary btn5"
+																			style="border: 1px solid #BDBDBD; background: #fff; color: #BDBDBD; float: right;"
+																			location.href='#'">
+																	</c:otherwise>
+																</c:choose>
+																<img
+																	src=${pageContext.request.contextPath}/res/images/likey.png>
+																<c:choose>
+																	<c:when
+																		test="${comment_like.containsKey(comments.comment_id) eq true}">
 																			추천 ${comment_like.get(comments.comment_id)}
 																	</c:when>
 																	<c:otherwise>추천 0</c:otherwise>
 																</c:choose>
-															</button>
-														</form>
-													</c:otherwise>
-												</c:choose>
-												
-												<!--변수증가필요-->
-												<c:set var="num" value="${status.index}" />
-												<span style="float: right; font-size: 10pt;margin-right: 30px;margin-top: 10px;"><a href="javascript:void(0);" data-rereply="${num}" style="font-weight: 200;">답글달기</a></span>
-											</c:if>
+																</button>
+															</form>
+														</c:otherwise>
+													</c:choose>
+
+													<!--변수증가필요-->
+													<c:set var="num" value="${status.index}" />
+													<span
+														style="float: right; font-size: 10pt; margin-right: 30px; margin-top: 10px;"><a
+														href="javascript:void(0);" data-rereply="${num}"
+														style="font-weight: 200;">답글달기</a></span>
+												</c:if>
 											</div>
-										</div>
-										<br> <br><br> <br><br>
-										<!--대댓글 목록-->
-										<div style="color:red">
+										</div> <br> <br> <br> <br> <br> <!--대댓글 목록-->
+										<div style="color: grey">
 											<ul class="reply_ul">
-												<c:forEach var="replies" items="${comments.replies}" varStatus="status">
-													<hr style="clear: both; background:#E6E6E6; border:0; height:2px;">
-										
-													<li style="background:#F2F2F2; margin-top:-15px;">
-													<div>
-														<p class="user_id">
-															<a href="#">${replies.user.nickname}</a>
-															<span>${replies.date}</span>
-															<!--대댓글 삭제-->
-															<c:choose>
-																<c:when test="${replies.user.user_idx eq user.user_idx || user.manager eq 'true'}">
-																	<span style="float: right;"><a href="/page/post/${post.post_id}/comment/${comments.comment_id}/${replies.reply_id}/delete" style="font-weight: 200">삭제</a></span>
-																</c:when>
-															</c:choose>
-														</p>
-														<div class="reply_text">${replies.content}</div>
-	
-													</div>
+												<c:forEach var="replies" items="${comments.replies}"
+													varStatus="status">
+													<c:set var="theString3" value="${replies.user.nickname}" />
+													<hr
+														style="clear: both; background: #E6E6E6; border: 0; height: 2px;">
+
+													<li style="background: #F2F2F2; margin-top: -15px;">
+														<div>
+															<p class="user_id">
+																<c:if test="${fn:contains(theString3,'관리자')}">${replies.user.nickname}</c:if>
+																<c:if test="${fn:indexOf(theString3,'관리자')==-1}">
+																	<a
+																		href="/page/user?user_idx=${replies.user.user_idx}&kara_type=0&sort=0"
+																		style="text-decoration: none; font-weight: bold; color: grey">${replies.user.nickname}</a>
+																</c:if>
+																<span>${replies.date}</span>
+																<!--대댓글 삭제-->
+																<c:choose>
+																	<c:when
+																		test="${replies.user.user_idx eq user.user_idx || user.manager eq 'true'}">
+																		<span style="float: right;"><a
+																			href="/page/post/${post.post_id}/comment/${comments.comment_id}/${replies.reply_id}/delete"
+																			style="font-weight: 200">삭제</a></span>
+																	</c:when>
+																</c:choose>
+															</p>
+															<div class="reply_text">${replies.content}</div>
+
+														</div>
 													</li>
 												</c:forEach>
 											</ul>
-										</div>
-										
-										<!--대댓글작성-->
+										</div> <!--대댓글작성-->
 										<div data-txar style="display: none;">
 											<div class="">
 												<div class="bottom_txar">
 													<c:choose>
-														<c:when test="${empty user }">	
-																<textarea name="content" cols="30" rows="10" class="txar" placeholder=""></textarea>
-																<button type="submit" class="btn btn-primary" style="float: right;margin-right: 10px;" onclick="location.href='/page/login'">등록</button>
+														<c:when test="${empty user }">
+															<textarea name="content" cols="30" rows="10" class="txar"
+																placeholder=""></textarea>
+															<button type="submit" class="btn btn-primary"
+																style="float: right; margin-right: 10px;"
+																onclick="location.href='/page/login'">등록</button>
 														</c:when>
 														<c:otherwise>
-															<form action="/page/post/${post.post_id}/comment/${comments.comment_id}/reply">
-																<textarea name="content" cols="30" rows="10" class="txar" placeholder=""></textarea>
-				
-																<button type="submit" class="btn btn-primary" style="float: right;margin-right: 10px;">등록</button>
+															<form
+																action="/page/post/${post.post_id}/comment/${comments.comment_id}/reply">
+																<textarea name="content" cols="30" rows="10"
+																	class="txar" placeholder=""></textarea>
+
+																<button type="submit" class="btn btn-primary"
+																	style="float: right; margin-right: 10px;">등록</button>
 															</form>
 														</c:otherwise>
 													</c:choose>
 												</div>
-												
+
 											</div>
 										</div>
 									</li>
 
-							</c:forEach>
+								</c:forEach>
 							</ul>
 						</div>
-						
+
 
 
 						<!--댓글 입력 폼-->
 						<div class="txar_wrap">
 							<div class="bottom_txar">
 								<c:choose>
-									<c:when test="${empty user }">		
+									<c:when test="${empty user }">
 										<textarea name="content" cols="30" rows="10" class="txar"
 											placeholder=""></textarea>
-		
+
 										<button type="submit" value="" class="btn btn-primary"
-											style="float: left; width: 100%" onclick="location.href='/page/login'">등록</button>
+											style="float: left; width: 100%"
+											onclick="location.href='/page/login'">등록</button>
 									</c:when>
 									<c:otherwise>
 										<form action="/page/post/${post.post_id}/comment">
 											<textarea name="content" cols="30" rows="10" class="txar"
 												placeholder=""></textarea>
-			
+
 											<button type="submit" value="" class="btn btn-primary"
 												style="float: left; width: 100%">등록</button>
 										</form>

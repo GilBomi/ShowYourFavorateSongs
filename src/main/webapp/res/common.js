@@ -16,9 +16,25 @@ $(function() {
 			location.href ="/page/deleteSong?user_idx="+url[0]+"&kara_type="+url[1]+"&sort="+url[2]+"&song_id="+url[3];
 		}
 	});
+	$("[data-follow]").click(function() {
+		var url = $(this).attr("data-follow").split(" ");
+		var result= confirm("팔로우 하시겠습니까?");
+		if(url[3]=='') {
+			url[3]=-1;
+		}
+		alert(url[0]);
+		if(result) {
+			location.href ="/page/follow?user_idx="+url[0]+"&kara_type="+url[1]+"&sort="+url[2]+"&my_user_idx="+url[3];
+		}
+	});
+	
+	
+	
+	
+	
 	
 
-
+	// 밑에서부터는 다시 손봐야됨. 아래부터는 완성이 제대로 안돼 있음
 	$("[data-url]").click(function() {
 		var url = $(this).attr("data-url");
 		location.href = url;
@@ -50,9 +66,7 @@ $(function() {
 	});
 
 	//추가
-	$("[data-follow]").click(function() {
-		return confirm("팔로우 하시겠습니까?");
-	});
+
 
 	$("[data-user-ban]").click(function() {
 		return confirm("해당 유저를 영구히 삭제하시겠습니까?");

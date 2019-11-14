@@ -87,24 +87,10 @@
 
 						</table>
 
-
-						<div class="text-center" style="margin-top: 100px;">
-							<!--페이지네이션-->
-							<ul class="pagination">
-								<li class="page-item disabled"><a class="page-link"
-									href="#">&laquo;</a></li>
-								<li class="page-item active"><a class="page-link" href="#">1</a>
-								</li>
-								<li class="page-item disabled"><a class="page-link"
-									href="#">&raquo;</a></li>
-							</ul>
-						</div>
-
-
 						<!--안내문 영역-->
 						<div
 							style="background: #E6E6E6; text-align: center; padding: 30px 0; margin: 100px 0; color: #2E2E2E;">
-							<span>찾으시는 곡이 없나요?</span> <span><a href="relative.html"
+							<span>찾으시는 곡이 없나요?</span> <span><a href="/page/relative"
 								style="font-weight: bold;">노래 신청하러 가기</a></span>
 						</div>
 					</div>

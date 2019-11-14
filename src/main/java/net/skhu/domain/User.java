@@ -116,4 +116,12 @@ public class User {
     @OneToMany(mappedBy="user")
     List<Song_like> song_likes;
 
+    @JsonIgnore
+    @OneToMany(mappedBy="user")
+    List<Follow> follows;
+
+    @JsonIgnore
+    @OneToMany(mappedBy="target_user")
+    List<Follow> target_follows;
+
 }

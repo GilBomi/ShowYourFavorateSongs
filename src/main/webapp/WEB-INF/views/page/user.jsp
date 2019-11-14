@@ -44,12 +44,14 @@
 					style="margin-bottom: 100px; margin-top: 50px;">
 					<div class="jumbotron">
 						<span style="float: left; margin-right: 10px; padding-top: 5px;"><h3>${u.nickname}</h3></span>
-
-						<button type="button" class="btn btn-primary btn5"
-							style="margin-right: 40px; border: 1px solid #BDBDBD; background: #fff; color: #BDBDBD;"
-							onclick="location.href='changeProfile.html'">정보 수정</button>
-
-						<button type="button" class="btn btn-primary btn4" data-follow>팔로우</button>
+						<c:if test="${u.user_idx eq user.user_idx}">
+							<button type="button" class="btn btn-primary btn5"
+								style="margin-right: 40px; border: 1px solid #BDBDBD; background: #fff; color: #BDBDBD;"
+								onclick="location.href='/page/changeProfile?user_idx=${user.user_idx}'">정보 수정</button>
+						</c:if>
+						<button type="button" class="btn btn-default btn4"
+							style="border: 1px solid grey"
+							data-follow="${u.user_idx} ${kara} ${sort} ${me.user_idx}">팔로우</button>
 
 						<div class="btn btn-primary btn4"
 							style="border: 1px solid #BDBDBD; background: #fff; color: #BDBDBD;">0</div>
@@ -94,18 +96,18 @@
 						<c:if test="${kara eq 0}">
 							<button type="button" class="btn btn-primary btn"
 								style="margin-left: 230px; width: 300px; border: 1px solid black"
-								onclick="location.href='/page/user?user_idx=${user.user_idx}&kara_type=0&sort=0'">금영</button>
+								onclick="location.href='/page/user?user_idx=${u.user_idx}&kara_type=0&sort=0'">금영</button>
 							<button type="button" class="btn btn-default btn"
 								style="margin-left: 30px; width: 300px; border: 1px solid black"
-								onclick="location.href='/page/user?user_idx=${user.user_idx}&kara_type=1&sort=0'">태진</button>
+								onclick="location.href='/page/user?user_idx=${u.user_idx}&kara_type=1&sort=0'">태진</button>
 						</c:if>
 						<c:if test="${kara eq 1}">
 							<button type="button" class="btn btn-default btn"
 								style="margin-left: 230px; width: 300px; border: 1px solid black"
-								onclick="location.href='/page/user?user_idx=${user.user_idx}&kara_type=0&sort=0'">금영</button>
+								onclick="location.href='/page/user?user_idx=${u.user_idx}&kara_type=0&sort=0'">금영</button>
 							<button type="button" class="btn btn-primary btn"
 								style="margin-left: 30px; width: 300px; border: 1px solid black"
-								onclick="location.href='/page/user?user_idx=${user.user_idx}&kara_type=1&sort=0'">태진</button>
+								onclick="location.href='/page/user?user_idx=${u.user_idx}&kara_type=1&sort=0'">태진</button>
 						</c:if>
 						<br> <br>
 						<div class="form-group" style="margin-bottom: 50px;">
@@ -128,7 +130,8 @@
 
 							<tbody>
 								<c:forEach var="song" items="${songs}" varStatus="status">
-									<tr song-delete="${user.user_idx} ${kara} ${sort} ${song.song.song_id}"
+									<tr
+										<c:if test="${u.user_idx eq user.user_idx}"> song-delete="${user.user_idx} ${kara} ${sort} ${song.song.song_id}"</c:if>
 										style="cursor: pointer">
 										<td>${song.song.song_num}</td>
 										<td>${song.song.title}</td>
@@ -174,7 +177,7 @@
 
 			// select element에서 선택된 option의 value가 저장된다.
 			var selectValue = langSelect.options[langSelect.selectedIndex].value;
-			location.href = "/page/user?user_idx=${user.user_idx}&kara_type=${kara}&sort="
+			location.href = "/page/user?user_idx=${u.user_idx}&kara_type=${kara}&sort="
 					+ selectValue;
 		}
 	</script>

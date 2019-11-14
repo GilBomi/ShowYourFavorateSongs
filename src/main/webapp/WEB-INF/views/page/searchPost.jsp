@@ -71,7 +71,7 @@
 											<c:set var="theString" value="${singeFinded.user.nickname}" />
 											<td><c:if test="${fn:contains(theString,'관리자')}">${singeFinded.user.nickname}</c:if>
 												<c:if test="${fn:indexOf(theString,'관리자')==-1}">
-													<a href="user?user_idx=${singeFinded.user.user_idx}"
+													<a href="user?user_idx=${singeFinded.user.user_idx}&kara_type=0&sort=0"
 														style="text-decoration: none; font-weight: bold; color: grey">${singeFinded.user.nickname}</a>
 												</c:if></td>
 											<td>${singeFinded.date}</td>

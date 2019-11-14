@@ -129,46 +129,7 @@
 
 								<button type="submit" class="btn btn-primary btn-block"
 									style="margin-top: 50px;">다음 단계</button>
-								<!--  onclick="button1_click(); return false;"-->
-								<!--<script type="text/javascript">
-									function button1_click() {
-
-										var id = $('#inputId').val();
-										var password = $('#inputPassword1')
-												.val();
-										var password2 = $('#inputPassword2')
-												.val();
-										var userName = $('#userName').val();
-										var email = $('#inputEmail1').val();
-										if (id != '' && password != ''
-												&& password2 != ''
-												&& userName != ''
-												&& email != '') {
-											location.href="joinNext"
-										} else {
-											if (id == '') {
-												document
-														.getElementById('inputId').required = required;
-											}
-											if (inputPassword1 == '') {
-												document
-														.getElementById('inputPassword1').required = true;
-											}
-											if (inputPassword2 == '') {
-												document
-														.getElementById('inputPassword2').required = required;
-											}
-											if (userName == '') {
-												document
-														.getElementById('userName').required = required;
-											}
-											if (inputEmail1 == '') {
-												document
-														.getElementById('inputEmail1').required = required;
-											}
-										}
-									}
-								</script>-->
+								
 							</fieldset>
 						</form>
 					</div>
